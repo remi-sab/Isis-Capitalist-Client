@@ -1,23 +1,19 @@
 body {
+    padding-top: 10px;
     color: rgb(255, 228, 54);
     background-image: url('http://localhost:8080/fondetoile.jpg');
+}
+
+[class*="col"] {
+    margin-bottom: 20px;
+}
+
+.col-sm-4 {
+    border: 2px solid white;
 }
 
 .col-sm-4 img {
     max-width: 30%;
     height: auto;
-}
-
-.progress {
-    color: rgb(255, 228, 54);
-}
-
-.produit_2 img {
-    max-width: 10%;
-    height: auto;
-}
-
-.produit_3 img {
-    max-width: 10%;
-    height: auto;
+    align-content: flex-end;
 }
