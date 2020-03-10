@@ -1,0 +1,23 @@
+body {
+    color: rgb(255, 228, 54);
+    background-image: url('http://localhost:8080/fondetoile.jpg');
+}
+
+.col-sm-4 img {
+    max-width: 30%;
+    height: auto;
+}
+
+.progress {
+    color: rgb(255, 228, 54);
+}
+
+.produit_2 img {
+    max-width: 10%;
+    height: auto;
+}
+
+.produit_3 img {
+    max-width: 10%;
+    height: auto;
+}

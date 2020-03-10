@@ -1,0 +1,14 @@
+body {
+    color: rgb(255, 228, 54);
+    background-image: url('http://localhost:8080/fondetoile.jpg');
+}
+
+.col-md-4 img {
+    max-width: 50%;
+    height: auto;
+}
+
+.col-md-4 h1 {
+    font-family: 'ROG fonts';
+    font-display: flex;
+}
