@@ -4,6 +4,10 @@ body {
     background-image: url('http://localhost:8080/fondetoile.jpg');
 }
 
+.productname {
+    font-family: 'ROG Fonts';
+}
+
 [class*="col"] {
     margin-bottom: 20px;
 }

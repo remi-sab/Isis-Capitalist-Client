@@ -1,14 +1,21 @@
 <div class="container-fluid">
     <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-md-2">
             <img src="http://localhost:8080/LogoSR.jpg" class="img-responsive"><br>
         </div>
 
         <div class="col-md-4">
-            <span id='worldname'>{{world.name}}</span>
-            <h4>Money: </h4>
-            <h4>Anges: </h4>
+            <div class="row">
+                <div class="col-4 col-sm-6">
+                    <img src="http://localhost:8080/tatooine.png" class="img-responsive worldlogo">
+                </div>
+                <div class="col-4 col-sm-6">
+                    <span class="worldname" id='worldname'>{{world.name}}</span>
+                    <h4>Republican Credits: </h4><span [innerHTML]="world.money | bigvalue"> </span>
+                    <h4>Ewoks: </h4>
+                </div>
+            </div>
         </div>
         <div class="col-md-4">
             <p><button type="button" class="btn btn-warning btn-lg">Achats</button></p>

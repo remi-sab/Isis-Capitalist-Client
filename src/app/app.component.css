@@ -2,13 +2,23 @@
     font-family: 'ROG Fonts';
 }
 
+.worldlogo {
+    margin: 0 auto;
+}
+
+.worldname {
+    font-family: 'Trajan Pro';
+    font-size: xx-large;
+}
+
 .col-md-4 img {
     max-width: 50%;
     height: auto;
 }
 
 .col-md-4 h4 {
-    font-family: 'Trajan Pro';
+    font-family: 'ROG Fonts';
+    font-size: small;
 }
 
 footer {
