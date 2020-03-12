@@ -9,16 +9,21 @@ body {
     font-size: medium;
 }
 
+.button {
+    font-family: 'Trajan Pro';
+}
+
+.textproduct {
+    font-family: 'ROG Fonts';
+    border: 2px solid aquamarine;
+    background: rgba(57, 255, 20, 0.2);
+    border-radius: 15%;
+}
+
 [class*="col"] {
     margin-bottom: 20px;
 }
 
 .col-sm-4 {
     border: 2px solid white;
-}
-
-.col-sm-4 img {
-    max-width: 100%;
-    height: auto;
-    align-content: flex-end;
 }

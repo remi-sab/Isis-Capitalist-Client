@@ -1,8 +1,9 @@
 body {
-    padding-top: 20px;
+    padding-top: 10px;
     padding-left: 20px;
+    padding-right: 40px;
     color: rgb(255, 228, 54);
-    /*background-image: url('http://localhost:8080/space.png');*/
+    background-image: url('http://localhost:8080/space.png');
 }
 
 * {

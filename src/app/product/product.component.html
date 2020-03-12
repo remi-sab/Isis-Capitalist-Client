@@ -3,18 +3,20 @@
 
         <div class="col-md-4">
             <h5 class="productname">{{product.name}}</h5>
-            <img class="image-repsonsive" width="100%" [src]="'http://localhost:8080/'+product.logo" style="cursor:pointer" (click)="startFabrication()" />
+            <img class=".img-responsive" width="100%" [src]="'http://localhost:8080/'+product.logo" style="cursor:pointer" (click)="startFabrication()" />
+            <div class="row">
+                <div class="col-md-9 text-center textproduct">{{product.quantite}}</div>
+            </div>
         </div>
 
         <div class="col-4 col-sm-6">
             <div class="progress" id="bar" style="width: auto; height: 16px; margin-top: 15px;">
-                <!--<div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>-->
             </div>
         </div>
         <div class="col-4 col-sm-6">
             <div class="row">
-                <button id=buyBtn{{product.id}} class="col-md-5 btn btn-warning">Buy {{_qtmulti}}</button>
-                <div class="col-md-7">00:00:00</div><br>
+                <button type=button class="button col-md-5 btn btn-warning btn-md" (click)="onBuy()">Buy {{_qtmulti}}</button>
+                <div class="col-md-7 text-center textproduct">00:00:00</div><br>
             </div>
         </div>
     </div>

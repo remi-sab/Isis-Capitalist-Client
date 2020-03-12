@@ -1,13 +1,9 @@
 .btn {
-    font-family: 'ROG Fonts';
+    font-family: 'Trajan Pro';
 }
 
 .button {
     font-family: 'Trajan Pro';
-}
-
-.worldlogo {
-    margin: 0 auto;
 }
 
 .worldname {
@@ -15,14 +11,18 @@
     font-size: xx-large;
 }
 
+.moneystyle {
+    font-family: 'ROG Fonts';
+}
+
 .col-md-4 img {
     max-width: 50%;
     height: auto;
 }
 
-.col-md-4 h4 {
+.texthaut {
     font-family: 'ROG Fonts';
-    font-size: small;
+    font-size: medium;
 }
 
 footer {

@@ -14,7 +14,6 @@ export class AppComponent {
   qtmulti : string = "X1";
 
   constructor(private service: RestserviceService){
-    console.log("coucou")
     this.server = service.getServer(); 
     service.getWorld().then(
       world => { this.world = world; 
@@ -40,6 +39,14 @@ export class AppComponent {
       break;
       default : this.qtmulti = 'X1';
       break;
+    }
+  }
+
+  onBuyDone(n : number){
+    if(this.world.money >= n){
+    this.world.money = this.world.money - n;
+    } else {
+      this.world.money = this.world.money;
     }
   }
 }

@@ -18,6 +18,7 @@ export class ProductComponent implements OnInit {
   maxAchat: number;
 
   @Output() notifyProduction: EventEmitter<Product> = new EventEmitter<Product>();
+  @Output() notifyBuying: EventEmitter<number> = new EventEmitter<number>();
 
   constructor() { }
 
@@ -34,7 +35,7 @@ export class ProductComponent implements OnInit {
     console.log(this._money)
   }
 
-  _qtmulti: string; 
+   _qtmulti: string; 
   @Input() 
   set qtmulti(value: string) { 
     this._qtmulti = value; 
@@ -87,4 +88,25 @@ export class ProductComponent implements OnInit {
       console.log(this.maxAchat);
     }
   }
+
+  onBuy(){
+    if(this._qtmulti == 'X1' &&  this._money >= this.product.cout){
+      var coutAchat = this.product.cout;
+      this.product.quantite = this.product.quantite + 1;
+    } 
+    if(this._qtmulti == 'X10' &&  this._money >= this.product.cout*10){
+      var coutAchat = this.product.cout*10;
+      this.product.quantite = this.product.quantite + 10;
+    }
+    if(this._qtmulti == 'X100' &&  this._money >= this.product.cout*100){
+      var coutAchat = this.product.cout*100;
+      this.product.quantite = this.product.quantite + 100;
+    }
+    if(this._qtmulti == 'Max' &&  this._money >= this.product.cout*this.maxAchat){
+      var coutAchat = this.product.cout*this.maxAchat;
+      this.product.quantite = this.product.quantite + this.maxAchat;
+    } 
+    this.notifyBuying.emit(coutAchat);
+  }
+
 }
