@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { Product } from '../world';
 
-declare var require; 
+declare var require;
 const ProgressBar = require("progressbar.js");
 
 @Component({
@@ -11,39 +11,80 @@ const ProgressBar = require("progressbar.js");
 })
 
 export class ProductComponent implements OnInit {
-  progressbar : any;
+  progressbar: any;
   lastupdate: number;
-  product : Product;
+  product: Product;
+  isRun: boolean;
+  maxAchat: number;
+
+  @Output() notifyProduction: EventEmitter<Product> = new EventEmitter<Product>();
 
   constructor() { }
 
-    @Input()
-    set prod(value:Product){
-      this.product = value;
-      console.log(value);
-    }
+  @Input()
+  set prod(value: Product) {
+    this.product = value;
+    console.log(value);
+  }
+
+  _money: number;
+  @Input()
+  set money(value: number) {
+    this._money = value;
+    console.log(this._money)
+  }
+
+  _qtmulti: string; 
+  @Input() 
+  set qtmulti(value: string) { 
+    this._qtmulti = value; 
+    if (this._qtmulti && this.product) this.calcMaxCanBuy(); 
+  }
 
   ngOnInit(): void {
     this.progressbar = new ProgressBar.Line("#bar", {
       strokeWidth: 100,
       easing: 'easeInOut',
-      duration: 1400,
-      color: '#FFEA82',
+      color: '#1febfd',
       trailColor: '#eee',
       trailWidth: 1,
-      svgStyle: {width: '100%', height: '100%'}
+      svgStyle: { width: '100%', height: '100%' }
     });
-    
-    
+    setInterval(() => { this.calcScore(); }, 100);
+
   }
 
-  startFabrication(){
-    if(this.product.quantite>=1){
+  startFabrication() {
+    if (this.product.quantite >= 1) {
       this.progressbar.animate(1.0);
       this.product.timeleft = this.product.vitesse;
       this.lastupdate = Date.now();
-      this.progressbar.animated(1, { duration: this.product.vitesse});
+      this.isRun = true;
+      // this.progressbar.animated(1, { duration: this.product.vitesse });
     }
   }
 
+  calcScore() {
+    if (this.isRun) {
+      if (this.product.timeleft > 0) {
+        this.product.timeleft = this.product.timeleft - (Date.now() - this.lastupdate);
+      } else {
+        this.lastupdate = 0;
+        this.product.timeleft = 0;
+        this.progressbar.set(0);
+        this.notifyProduction.emit(this.product);
+        this.isRun = false;
+      }
+    }
+  }
+
+  calcMaxCanBuy() {
+    if (this._qtmulti == 'Max') {
+      var a = 1 - ((this._money/this.product.cout)*(1-this.product.croissance)) - this.product.croissance;
+      var result = (Math.log(a)) - 1;
+      this.maxAchat = Math.floor(result);
+      this._qtmulti = "X"+this.maxAchat;
+      console.log(this.maxAchat);
+    }
+  }
 }

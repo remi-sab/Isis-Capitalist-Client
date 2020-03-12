@@ -2,7 +2,7 @@
     <div class="row">
 
         <div class="col-md-4">
-            <h5 style="font-family: 'Trojan Pro';">{{product.name}}</h5>
+            <h5 class="productname">{{product.name}}</h5>
             <img class="image-repsonsive" width="100%" [src]="'http://localhost:8080/'+product.logo" style="cursor:pointer" (click)="startFabrication()" />
         </div>
 
@@ -13,7 +13,7 @@
         </div>
         <div class="col-4 col-sm-6">
             <div class="row">
-                <button id=buyBtn{{product.id}} class="col-md-5 btn btn-warning">Buy x1</button>
+                <button id=buyBtn{{product.id}} class="col-md-5 btn btn-warning">Buy {{_qtmulti}}</button>
                 <div class="col-md-7">00:00:00</div><br>
             </div>
         </div>

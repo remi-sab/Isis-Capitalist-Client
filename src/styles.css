@@ -2,10 +2,9 @@ body {
     padding-top: 20px;
     padding-left: 20px;
     color: rgb(255, 228, 54);
-    background-image: url('http://localhost:8080/fondetoile.jpg');
+    /*background-image: url('http://localhost:8080/space.png');*/
 }
 
-
-/** {
+* {
     border: 1px solid black;
-}*/
+}

@@ -6,6 +6,7 @@ body {
 
 .productname {
     font-family: 'ROG Fonts';
+    font-size: medium;
 }
 
 [class*="col"] {
