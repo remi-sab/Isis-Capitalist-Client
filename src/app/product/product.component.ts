@@ -26,7 +26,12 @@ export class ProductComponent implements OnInit {
   @Input()
   set prod(value: Product) {
     this.product = value;
-    console.log(value);
+    if (this.product && this.product.timeleft > 0){
+      this.lastupdate = Date.now();
+      let progress = (this.product.vitesse - this.product.timeleft) / this.product.vitesse;
+      this.progressbar.set(progress);
+      this.progressbar.animate(1, { duration : this.product.timeleft});
+    }
   }
 
   _money: number;
@@ -44,26 +49,34 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.progressbar = new ProgressBar.Line("#bar", {
-      strokeWidth: 100,
-      easing: 'easeInOut',
-      color: '#1febfd',
-      trailColor: '#eee',
-      trailWidth: 1,
-      svgStyle: { width: '100%', height: '100%' }
-    });
     setInterval(() => { this.calcScore(); }, 100);
-
   }
 
+  ngAfterViewInit() {
+    setTimeout(()=> {
+      this.progressbar = new ProgressBar.Line(this.progressBarItem.nativeElement, {
+        strokeWidth: 4,
+        easing: 'easeInOut',
+        color: '#1febfd',
+        trailColor: '#eee',
+        trailWidth: 1,
+        svgStyle: { width: '100%', height: '100%' },
+        //step (state, progressbar) => {
+          //progressbar.path.setAttribute('stroke', state.color);
+        //}        
+      });
+    }, 100)
+}
+
   startFabrication() {
-    if (this.product.quantite >= 1) {
-    this.progressbar.animate(1.0);
+    //if (this.product.quantite >= 1) {
+    let progress = (this.product.vitesse - this.product.timeleft) / this.product.vitesse;
+    this.progressbar.animate(1, { duration: progress });
     this.product.timeleft = this.product.vitesse;
     this.lastupdate = Date.now();
     this.isRun = true;
-    this.progressbar.animated(1, { duration: this.product.vitesse });
-  }
+    //this.progressbar.animated(1, { duration: this.product.vitesse });
+  //}
   }
   calcScore() {
     if (this.isRun) {
@@ -79,14 +92,13 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  calcMaxCanBuy() {
-    if (this._qtmulti == 'Max') {
-      var a = 1 - ((this._money/this.product.cout)*(1-this.product.croissance)) - this.product.croissance;
-      var result = (Math.log(a)) - 1;
-      this.maxAchat = Math.floor(result);
-      this._qtmulti = "X"+this.maxAchat;
-      console.log(this.maxAchat);
-    }
+  calcMaxCanBuy(): number {
+    var a = 1 - ((this._money / this.product.cout) * (1 - this.product.croissance)) - this.product.croissance;
+    console.log(a)
+    var result = - (Math.log(a) - 1);
+    var maxAchat = Math.floor(result);
+    console.log(maxAchat);
+    return maxAchat;
   }
 
   onBuy(){

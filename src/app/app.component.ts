@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RestserviceService } from './restservice.service';
 import { World, Product, Pallier } from './world';
 
@@ -12,6 +12,7 @@ export class AppComponent {
   world: World = new World();
   server: string;
   qtmulti : string = "X1";
+  managerDispo : boolean;
 
   constructor(private service: RestserviceService){
     this.server = service.getServer(); 
@@ -23,7 +24,6 @@ export class AppComponent {
 
   onProductionDone(p : Product){
     this.world.money = this.world.money + p.revenu;
-    console.log("je suis passé");
     this.world.score = this.world.score + p.revenu;
   }
 
@@ -49,4 +49,32 @@ export class AppComponent {
       this.world.money = this.world.money;
     }
   }
+
+  managerDisponibility() : void {
+    this.managerDispo = false;
+    this.world.managers.pallier.forEach(val => {
+      if(!this.managerDispo){
+        if(this.world.money > val.seuil){
+          this.managerDispo = true;
+        }
+      }
+    })
+  }
+
+  achatManager(m : Pallier){
+    if(this.world.money >= m.seuil){
+      this.world.money = this.world.money - m.seuil;
+      var index = this.world.managers.pallier.indexOf(m);
+      this.world.managers.pallier[index].unlocked = true;
+
+      this.world.products.product.forEach(element => {
+        if(m.idcible==element.id){
+           var index = this.world.products.product.indexOf(element);
+           this.world.products.product[index].managerUnlocked = true;
+        }
+      });
+      this.managerDisponibility();
+    }
+  }
+
 }

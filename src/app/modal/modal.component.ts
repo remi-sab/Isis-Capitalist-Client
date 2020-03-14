@@ -2,29 +2,16 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-modal',
-  template: `
-  <div (click)="onContainerClicked($event)" class="modal fade" tabindex="-1" [ngClass]="{'in': visibleAnimate}"
-       [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <ng-content select=".app-modal-header"></ng-content>
-        </div>
-        <div class="modal-body">
-          <ng-content select=".app-modal-body"></ng-content>
-        </div>
-        <div class="modal-footer">
-          <ng-content select=".app-modal-footer"></ng-content>
-        </div>
-      </div>
-    </div>
-  </div>
-  `
+  template: './modal.component.html',
+  styleUrls : ['./modal.component.css']
 })
-export class ModalComponent {
+
+export class ModalComponent implements OnInit {
 
   public visible = false;
   public visibleAnimate = false;
+
+constructor() {}
 
   public show(): void {
     this.visible = true;
@@ -41,4 +28,6 @@ export class ModalComponent {
       this.hide();
     }
   }
+
+  ngOnInit():void{}
 }

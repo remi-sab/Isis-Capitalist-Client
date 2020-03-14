@@ -1,9 +1,15 @@
-<app-modal #managersModal>
-    <div class="app-modal-header">
-        <h4 class="modal-title">Managers make you feel better !</h4>
+<div (click)="onContainerClicked($event)" class="modal fade" tabindex="-1" [ngClass]="{'in': visibleAnimate}" [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}">
+    <div class="modal-dialog modal-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <ng-content select=".app-modal-header"></ng-content>
+            </div>
+            <div class="modal-body">
+                <ng-content select=".app-modal-body"></ng-content>
+            </div>
+            <div class="modal-footer">
+                <ng-content select=".app-modal-footer"></ng-content>
+            </div>
+        </div>
     </div>
-    <div class="app-modal-body">
-        <div *ngFor="let manager of world.managers.pallier"> // a completer pour réaliser le rendu d’une ligne de manager </div>
-    </div>
-    <div class="app-modal-footer"> <button type="button" class="btn btn-default" (click)="managersModal.hide()">Close</button> </div>
-</app-modal>
+</div>
