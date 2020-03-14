@@ -1,0 +1,9 @@
+<app-modal #managersModal>
+    <div class="app-modal-header">
+        <h4 class="modal-title">Managers make you feel better !</h4>
+    </div>
+    <div class="app-modal-body">
+        <div *ngFor="let manager of world.managers.pallier"> // a completer pour réaliser le rendu d’une ligne de manager </div>
+    </div>
+    <div class="app-modal-footer"> <button type="button" class="btn btn-default" (click)="managersModal.hide()">Close</button> </div>
+</app-modal>

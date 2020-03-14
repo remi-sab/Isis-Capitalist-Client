@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, ElementRef } from '@angular/core';
 import { Product } from '../world';
 
 declare var require;
@@ -11,6 +11,7 @@ const ProgressBar = require("progressbar.js");
 })
 
 export class ProductComponent implements OnInit {
+  @ViewChild('bar') progressBarItem: ElementRef;
   progressbar: any;
   lastupdate: number;
   product: Product;
@@ -57,14 +58,13 @@ export class ProductComponent implements OnInit {
 
   startFabrication() {
     if (this.product.quantite >= 1) {
-      this.progressbar.animate(1.0);
-      this.product.timeleft = this.product.vitesse;
-      this.lastupdate = Date.now();
-      this.isRun = true;
-      // this.progressbar.animated(1, { duration: this.product.vitesse });
-    }
+    this.progressbar.animate(1.0);
+    this.product.timeleft = this.product.vitesse;
+    this.lastupdate = Date.now();
+    this.isRun = true;
+    this.progressbar.animated(1, { duration: this.product.vitesse });
   }
-
+  }
   calcScore() {
     if (this.isRun) {
       if (this.product.timeleft > 0) {
