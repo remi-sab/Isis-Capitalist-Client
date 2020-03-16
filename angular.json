@@ -24,7 +24,8 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "src/styles.css"
+                            "src/styles.css",
+                            "styles.css", "../node_modules/angular2-toaster/toaster.css"
                         ],
                         "scripts": ["node_modules/progressbar.js/dist/progressbar.js"]
                     },

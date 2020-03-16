@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter, ElementRef } from '@angular/core';
-import { Product } from '../world';
+import { Product, Pallier } from '../world';
 
 declare var require;
 const ProgressBar = require("progressbar.js");
@@ -30,7 +30,7 @@ export class ProductComponent implements OnInit {
       this.lastupdate = Date.now();
       let progress = (this.product.vitesse - this.product.timeleft) / this.product.vitesse;
       this.progressbar.set(progress);
-      this.progressbar.animate(1, { duration : this.product.timeleft});
+      this.progressbar.animate(1, { duration : this.product.vitesse});
     }
   }
 
@@ -69,15 +69,15 @@ export class ProductComponent implements OnInit {
 }
 
   startFabrication() {
-    //if (this.product.quantite >= 1) {
+    if (this.product.quantite >= 1) {
     let progress = (this.product.vitesse - this.product.timeleft) / this.product.vitesse;
     this.progressbar.animate(1, { duration: progress });
     this.product.timeleft = this.product.vitesse;
     this.lastupdate = Date.now();
     this.isRun = true;
-    //this.progressbar.animated(1, { duration: this.product.vitesse });
-  //}
+    }
   }
+
   calcScore() {
     if (this.isRun) {
       if (this.product.timeleft > 0) {
@@ -86,11 +86,14 @@ export class ProductComponent implements OnInit {
         this.lastupdate = 0;
         this.product.timeleft = 0;
         this.progressbar.set(0);
-        this.notifyProduction.emit(this.product);
         this.isRun = false;
       }
+      this.notifyProduction.emit(this.product);
     }
+    if (this.product.managerUnlocked) {
+      this.startFabrication();
   }
+}
 
   calcMaxCanBuy(): number {
     var a = 1 - ((this._money / this.product.cout) * (1 - this.product.croissance)) - this.product.croissance;
@@ -119,6 +122,20 @@ export class ProductComponent implements OnInit {
       this.product.quantite = this.product.quantite + this.maxAchat;
     } 
     this.notifyBuying.emit(coutAchat);
+  }
+
+  calcUpgrade(pallier: Pallier) {
+    switch (pallier.typeratio) {
+      case 'vitesse':
+        this.product.vitesse = this.product.vitesse / pallier.ratio;
+        break;
+      case 'gain':
+        this.product.revenu = this.product.revenu * pallier.ratio;
+        break;
+      case 'ange':
+        console.log('ange');
+        break;
+    }
   }
 
 }
