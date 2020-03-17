@@ -95,14 +95,29 @@ export class ProductComponent implements OnInit {
   }
 }
 
-  calcMaxCanBuy(): number {
+  calcMaxCanBuy(): String {
+    let quantiteMax: number = 0;
+    let maxim: number = 0;
+    let max: number = 1;
+    while (maxim < this._money) {
+      max = max * this.product.cout;
+      maxim = maxim + max;
+      quantiteMax = quantiteMax + 1;
+      if(this.product.cout > this._money){
+        quantiteMax = 0;
+      }
+    }
+    return "X"+quantiteMax;
+  }
+  
+  /*number {
     var a = 1 - ((this._money / this.product.cout) * (1 - this.product.croissance)) - this.product.croissance;
     console.log(a)
     var result = - (Math.log(a) - 1);
     var maxAchat = Math.floor(result);
     console.log(maxAchat);
-    return maxAchat;
-  }
+    return "X"+maxAchat;
+  }*/
 
   onBuy(){
     if(this._qtmulti == 'X1' &&  this._money >= this.product.cout){

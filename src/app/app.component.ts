@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { RestserviceService } from './restservice.service';
 import { World, Product, Pallier } from './world';
 import { ProductComponent } from './product/product.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent {
   managerDispo : boolean;
   upgradeDispo : boolean;
 
-  constructor(private service: RestserviceService){
+  constructor(private service: RestserviceService, private toastr : ToastrService){
     this.server = service.getServer(); 
     service.getWorld().then(
       world => { this.world = world; 
@@ -62,9 +63,9 @@ export class AppComponent {
     this.managerDispo = false;
     this.world.managers.pallier.forEach(val => {
       if(!this.managerDispo){
-        if(this.world.money > val.seuil){
+          if(this.world.money > val.seuil && !val.unlocked){
           this.managerDispo = true;
-        }
+          }
       }
     })
   }
@@ -93,6 +94,7 @@ export class AppComponent {
         }
       });
       this.managerDisponibility();
+      this.toastr.success("Achat de " + m.name + " effectué", "Manager")
     }
   }
 
@@ -103,13 +105,13 @@ export class AppComponent {
       
       if(u.idcible == 0){
         this.productsComponent.forEach(prod => prod.calcUpgrade(u));
-        //this.notifyService.showSuccess("achat d'un upgrade de "+u.typeratio+" pour tous les produits","Upgrade global");
+        this.toastr.success("Achat d'un upgrade de "+u.typeratio+" pour tous les produits","Upgrade global");
       }
       else{
         this.productsComponent.forEach(prod => {
           if(u.idcible == prod.product.id){
             prod.calcUpgrade(u);
-            //this.notifyService.showSuccess("achat d'un upgrade de "+u.typeratio+" pour "+prod.product.name,"Upgrade")
+            this.toastr.success("Achat d'un upgrade de "+u.typeratio+" pour "+prod.product.name,"Upgrade")
           }
         })
       }

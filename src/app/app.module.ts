@@ -6,7 +6,9 @@ import { ProductComponent } from './product/product.component';
 import { RestserviceService } from './restservice.service';
 import { BigvaluePipe } from './bigvalue.pipe';
 import { ModalComponent } from './modal/modal.component';
-import { ToasterModule } from 'angular2-toaster';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrService } from 'ngx-toastr';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -18,8 +20,11 @@ import { ToasterModule } from 'angular2-toaster';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     HttpClientModule,
-    ToasterModule
+    BrowserAnimationsModule,
+    ToastrService
+    
 
   ],
   providers: [RestserviceService],

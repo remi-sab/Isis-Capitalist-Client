@@ -49,7 +49,9 @@
                 <div *ngIf="!manager.unlocked" class="row rounded notif border-bottom">
                     <div class="col-md-4">
                         <span class="txt row text-center font-weight-bold">{{manager.name}}</span>
-                        <span class="row text-center"></span>
+                        <span class="row text-center">
+                            <img class=".img-responsive" width="100%" [src]="'http://localhost:8080/'+manager.logo" style="cursor:pointer" />
+                        </span>
                         <span class="row text-center">{{manager.seuil}}</span>
                     </div>
                     <div class="col-md-3">
@@ -60,8 +62,6 @@
         </div>
         <div class="app-modal-footer"> <button type="button" class="btn btn-default" (click)="managersModal.hide()">Close</button> </div>
     </app-modal>
-
-    <toaster-container></toaster-container>
 
 </div>
 
