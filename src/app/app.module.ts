@@ -7,7 +7,7 @@ import { RestserviceService } from './restservice.service';
 import { BigvaluePipe } from './bigvalue.pipe';
 import { ModalComponent } from './modal/modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ToastrService } from 'ngx-toastr';
+import { ToastrModule } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 
 
@@ -23,9 +23,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    ToastrService
-    
-
+    ToastrModule.forRoot()
   ],
   providers: [RestserviceService],
   bootstrap: [AppComponent]
