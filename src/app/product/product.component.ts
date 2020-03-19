@@ -53,7 +53,7 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setInterval(() => { this.calcScore(); }, 1000);
+    setInterval(() => { this.calcScore(); }, 100);
   }
 
   ngAfterViewInit() {
@@ -73,13 +73,11 @@ export class ProductComponent implements OnInit {
 }
 
   startFabrication() {
-    if (this.product.quantite >= 1) {
+    if (this.product.quantite >= 1 && !this.isRun) {
     console.log('Fabrication commencée')
     this.product.timeleft = this.product.vitesse;
     this.lastupdate = Date.now();
-    let progress = (this.product.timeleft-this.product.vitesse)/this.product.vitesse;
-    this.progressbar.animate(1, { duration: progress });
-    
+    this.progressbar.animate(1, { duration: this.product.vitesse });
     this.isRun = true;
     }
   }
@@ -88,56 +86,58 @@ export class ProductComponent implements OnInit {
     if (this.isRun) {
       if (this.product.timeleft > 0) {
         this.product.timeleft = this.product.timeleft - (Date.now() - this.lastupdate);
+        this.lastupdate = Date.now();
         console.log('coucou');
       } else {
+        this.isRun = false;
         this.lastupdate = 0;
         this.product.timeleft = 0;
         this.progressbar.set(0);
-        this.isRun = false;
+        this.notifyProduction.emit(this.product);
       }
-      this.notifyProduction.emit(this.product);
+      //this.notifyProduction.emit(this.product);
     }
     if (this.product.managerUnlocked) {
       this.startFabrication();
   }
 }
 
-  calcMaxCanBuy(): number {
-    let quantiteMax: number = 0;
-    let maxim: number = 0;
-    let max: number = 1;
-    while (maxim < this._money) {
-      max = max * this.product.cout;
-      maxim = maxim + max;
-      quantiteMax = quantiteMax + 1;
-      if(this.product.cout > this._money){
-        quantiteMax = 0;
-      }
+calcMaxCanBuy() {
+  let quantiteMax = 0;
+  let maxim = 0;
+  let max = this.product.cout*(this.product.croissance**this.product.quantite);
+  if(max <= this._money){
+    while ((maxim+max) < this._money) {
+      maxim += max;
+      quantiteMax ++;
+      max = max * this.product.croissance;
     }
-    return quantiteMax;
   }
+  return {"quantiteMax":quantiteMax, "maxim":maxim};
+}
 
   onBuy(){
     if(this._qtmulti == 'X1' &&  this._money >= this.product.cout){
       var coutAchat = this.product.cout;
       this.product.quantite = this.product.quantite + 1;
     } 
-    if(this._qtmulti == 'X10' &&  this._money >= this.product.cout*10){
+    else if(this._qtmulti == 'X10' &&  this._money >= this.product.cout*10){
       var coutAchat = this.product.cout*10;
       this.product.quantite = this.product.quantite + 10;
     }
-    if(this._qtmulti == 'X100' &&  this._money >= this.product.cout*100){
+    else if(this._qtmulti == 'X100' &&  this._money >= this.product.cout*100){
       var coutAchat = this.product.cout*100;
       this.product.quantite = this.product.quantite + 100;
     }
-    if(this._qtmulti == 'Max' &&  this._money >= this.product.cout*this.calcMaxCanBuy()){
-      var coutAchat = this.product.cout*this.calcMaxCanBuy();
-      this.product.quantite = this.product.quantite + this.calcMaxCanBuy();
+    else {
+      var coutAchat = this.calcMaxCanBuy().maxim;
+      this.product.quantite = this.product.quantite + this.calcMaxCanBuy().quantiteMax;
     } 
+    console.log(coutAchat);
     this.notifyBuying.emit(coutAchat);
   }
 
-  calcUpgrade(pallier: Pallier) {
+  /*calcUpgrade(pallier: Pallier) {
     switch (pallier.typeratio) {
       case 'vitesse':
         this.product.vitesse = this.product.vitesse / pallier.ratio;
@@ -146,6 +146,6 @@ export class ProductComponent implements OnInit {
         this.product.revenu = this.product.revenu * pallier.ratio;
         break;
     }
-  }
+  }*/
 
 }

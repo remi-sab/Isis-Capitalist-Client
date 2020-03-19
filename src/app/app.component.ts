@@ -31,7 +31,7 @@ export class AppComponent {
     this.world.score = this.world.score + p.revenu;
     console.log('Je ne fais que passer')
     this.managerDisponibility();
-    this.upgradeDisponibility();
+    //this.upgradeDisponibility();
   }
 
   commutateur(){
@@ -44,8 +44,8 @@ export class AppComponent {
       break;
       case 'Max' : this.qtmulti = 'X1';
       break;
-      default : this.qtmulti = 'X1';
-      break;
+      //default : this.qtmulti = 'X1';
+      //break;
     }
   }
 
@@ -56,7 +56,7 @@ export class AppComponent {
       this.world.money = this.world.money;
     }
     this.managerDisponibility();
-    this.upgradeDisponibility();
+    //this.upgradeDisponibility();
   }
 
 
@@ -71,7 +71,7 @@ export class AppComponent {
     })
   }
 
-  upgradeDisponibility(){
+  /*upgradeDisponibility(){
     this.upgradeDispo = false;
     this.world.upgrades.pallier.map(upgrade => {
       if(!this.upgradeDispo){
@@ -80,7 +80,7 @@ export class AppComponent {
         }
       }
     })
-  }
+  }*/
 
   achatManager(m : Pallier){
     if(this.world.money >= m.seuil){
@@ -99,7 +99,7 @@ export class AppComponent {
     }
   }
 
-  achatUpgrade (u : Pallier){
+  /*achatUpgrade (u : Pallier){
     if(this.world.money >= u.seuil){
       this.world.money = this.world.money - u.seuil;
       this.world.upgrades.pallier[this.world.upgrades.pallier.indexOf(u)].unlocked = true;
@@ -118,6 +118,6 @@ export class AppComponent {
       }
       this.upgradeDisponibility();
     }
-  }
+  }*/
 
 }

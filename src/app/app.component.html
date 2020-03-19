@@ -23,19 +23,16 @@
     <div class="row">
         <div class="col-md-2">
             <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="managersModal.show()">Managers</button></p><br>
-            <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="upgradesModal.show()">Cash Upgrades</button></p><br>
+            <p><button type="button" class="btn btn-primary btn-lg">Cash Upgrades</button></p><br>
             <p><button type="button" class="btn btn-primary btn-lg">Angel Upgrades</button></p><br>
             <p><button type="button" class="btn btn-primary btn-lg">Unlocks</button></p><br>
             <p><button type="button" class="btn btn-primary btn-lg">Investors</button></p><br>
         </div>
         <div class="col-md-10">
             <p>
-                <app-product (notifyProduction)="onProductionDone($event)" (notifyBuying)="onBuyDone($event)" [prod]="world.products.product[0]" [money]="world.money" [qtmulti]="qtmulti" class="product col-md-6"></app-product>
-                <app-product (notifyProduction)="onProductionDone($event)" (notifyBuying)="onBuyDone($event)" [prod]="world.products.product[1]" [money]="world.money" [qtmulti]="qtmulti" class="product col-md-6"></app-product>
-                <app-product (notifyProduction)="onProductionDone($event)" (notifyBuying)="onBuyDone($event)" [prod]="world.products.product[2]" [money]="world.money" [qtmulti]="qtmulti" class="product col-md-6"></app-product>
-                <app-product (notifyProduction)="onProductionDone($event)" (notifyBuying)="onBuyDone($event)" [prod]="world.products.product[3]" [money]="world.money" [qtmulti]="qtmulti" class="product col-md-6"></app-product>
-                <app-product (notifyProduction)="onProductionDone($event)" (notifyBuying)="onBuyDone($event)" [prod]="world.products.product[4]" [money]="world.money" [qtmulti]="qtmulti" class="product col-md-6"></app-product>
-                <app-product (notifyProduction)="onProductionDone($event)" (notifyBuying)="onBuyDone($event)" [prod]="world.products.product[5]" [money]="world.money" [qtmulti]="qtmulti" class="product col-md-6"></app-product>
+                <app-product *ngFor="let product of world.products.product" (notifyProduction)="onProductionDone($event)" (notifyBuying)="onBuyDone($event)" [prod]="product" [money]="world.money" [qtmulti]="qtmulti" class="product col-md-6">
+                </app-product>
+
             </p>
         </div>
     </div>
