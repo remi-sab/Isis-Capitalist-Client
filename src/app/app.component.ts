@@ -29,6 +29,7 @@ export class AppComponent {
   onProductionDone(p : Product){
     this.world.money = this.world.money + p.revenu;
     this.world.score = this.world.score + p.revenu;
+    console.log('Je ne fais que passer')
     this.managerDisponibility();
     this.upgradeDisponibility();
   }

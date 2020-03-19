@@ -23,7 +23,7 @@
     <div class="row">
         <div class="col-md-2">
             <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="managersModal.show()">Managers</button></p><br>
-            <p><button type="button" class="btn btn-primary btn-lg">Cash Upgrades</button></p><br>
+            <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="upgradesModal.show()">Cash Upgrades</button></p><br>
             <p><button type="button" class="btn btn-primary btn-lg">Angel Upgrades</button></p><br>
             <p><button type="button" class="btn btn-primary btn-lg">Unlocks</button></p><br>
             <p><button type="button" class="btn btn-primary btn-lg">Investors</button></p><br>
@@ -62,6 +62,29 @@
         </div>
         <div class="app-modal-footer"> <button type="button" class="btn btn-default" (click)="managersModal.hide()">Close</button> </div>
     </app-modal>
+
+    <!--<app-modal #upgradesModal>
+        <div class="app-modal-header">
+            <h4 class="modal-title">Buy some skills to boost your ships !</h4>
+        </div>
+        <div class="app-modal-body">
+            <div *ngFor="let upgrade of world.upgrades.pallier">
+                <div *ngIf="!upgrade.unlocked" class="row rounded notif border-bottom">
+                    <div class="col-md-4">
+                        <span class="txt row text-center font-weight-bold">{{upgrade.name}}</span>
+                        <span class="row text-center">
+                            <img class=".img-responsive" width="100%" [src]="'http://localhost:8080/'+upgrade.logo" style="cursor:pointer" />
+                        </span>
+                        <span class="row text-center">{{upgrade.seuil}}</span>
+                    </div>
+                    <div class="col-md-3">
+                        <button style="height: 100px; width: 100px;" class="btn btn-info" (click)="achatUpgrade(upgrade)">Buy !</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="app-modal-footer"> <button type="button" class="btn btn-default" (click)="upgradesModal.hide()">Close</button> </div>
+    </app-modal>-->
 
 </div>
 

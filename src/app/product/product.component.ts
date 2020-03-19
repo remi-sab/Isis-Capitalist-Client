@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter, ElementRef } from '@angular/core';
 import { Product, Pallier } from '../world';
 
+
 declare var require;
 const ProgressBar = require("progressbar.js");
 
@@ -30,7 +31,7 @@ export class ProductComponent implements OnInit {
       this.lastupdate = Date.now();
       let progress = (this.product.vitesse - this.product.timeleft) / this.product.vitesse;
       this.progressbar.set(progress);
-      this.progressbar.animate(1, { duration : this.product.vitesse});
+      this.progressbar.animate(1, { duration : this.product.timeleft});
     }
   }
 
@@ -44,12 +45,15 @@ export class ProductComponent implements OnInit {
    _qtmulti: string; 
   @Input() 
   set qtmulti(value: string) { 
-    this._qtmulti = value; 
-    if (this._qtmulti && this.product) this.calcMaxCanBuy(); 
+    if(value == 'Max'){
+      this._qtmulti = 'X'+this.calcMaxCanBuy();
+    } else {
+      this._qtmulti = value;
+    }
   }
 
   ngOnInit(): void {
-    setInterval(() => { this.calcScore(); }, 100);
+    setInterval(() => { this.calcScore(); }, 1000);
   }
 
   ngAfterViewInit() {
@@ -70,10 +74,12 @@ export class ProductComponent implements OnInit {
 
   startFabrication() {
     if (this.product.quantite >= 1) {
-    let progress = (this.product.vitesse - this.product.timeleft) / this.product.vitesse;
-    this.progressbar.animate(1, { duration: progress });
+    console.log('Fabrication commencée')
     this.product.timeleft = this.product.vitesse;
     this.lastupdate = Date.now();
+    let progress = (this.product.timeleft-this.product.vitesse)/this.product.vitesse;
+    this.progressbar.animate(1, { duration: progress });
+    
     this.isRun = true;
     }
   }
@@ -82,6 +88,7 @@ export class ProductComponent implements OnInit {
     if (this.isRun) {
       if (this.product.timeleft > 0) {
         this.product.timeleft = this.product.timeleft - (Date.now() - this.lastupdate);
+        console.log('coucou');
       } else {
         this.lastupdate = 0;
         this.product.timeleft = 0;
@@ -95,7 +102,7 @@ export class ProductComponent implements OnInit {
   }
 }
 
-  calcMaxCanBuy(): String {
+  calcMaxCanBuy(): number {
     let quantiteMax: number = 0;
     let maxim: number = 0;
     let max: number = 1;
@@ -107,17 +114,8 @@ export class ProductComponent implements OnInit {
         quantiteMax = 0;
       }
     }
-    return "X"+quantiteMax;
+    return quantiteMax;
   }
-  
-  /*number {
-    var a = 1 - ((this._money / this.product.cout) * (1 - this.product.croissance)) - this.product.croissance;
-    console.log(a)
-    var result = - (Math.log(a) - 1);
-    var maxAchat = Math.floor(result);
-    console.log(maxAchat);
-    return "X"+maxAchat;
-  }*/
 
   onBuy(){
     if(this._qtmulti == 'X1' &&  this._money >= this.product.cout){
@@ -132,9 +130,9 @@ export class ProductComponent implements OnInit {
       var coutAchat = this.product.cout*100;
       this.product.quantite = this.product.quantite + 100;
     }
-    if(this._qtmulti == 'Max' &&  this._money >= this.product.cout*this.maxAchat){
-      var coutAchat = this.product.cout*this.maxAchat;
-      this.product.quantite = this.product.quantite + this.maxAchat;
+    if(this._qtmulti == 'Max' &&  this._money >= this.product.cout*this.calcMaxCanBuy()){
+      var coutAchat = this.product.cout*this.calcMaxCanBuy();
+      this.product.quantite = this.product.quantite + this.calcMaxCanBuy();
     } 
     this.notifyBuying.emit(coutAchat);
   }
@@ -146,9 +144,6 @@ export class ProductComponent implements OnInit {
         break;
       case 'gain':
         this.product.revenu = this.product.revenu * pallier.ratio;
-        break;
-      case 'ange':
-        console.log('ange');
         break;
     }
   }
