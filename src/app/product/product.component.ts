@@ -46,7 +46,7 @@ export class ProductComponent implements OnInit {
   @Input() 
   set qtmulti(value: string) { 
     if(value == 'Max'){
-      this._qtmulti = 'X'+this.calcMaxCanBuy();
+      this._qtmulti = 'X'+this.calcMaxCanBuy(true);
     } else {
       this._qtmulti = value;
     }
@@ -102,7 +102,7 @@ export class ProductComponent implements OnInit {
   }
 }
 
-calcMaxCanBuy() {
+calcMaxCanBuy(qty : boolean) {
   let quantiteMax = 0;
   let maxim = 0;
   let max = this.product.cout*(this.product.croissance**this.product.quantite);
@@ -113,25 +113,40 @@ calcMaxCanBuy() {
       max = max * this.product.croissance;
     }
   }
-  return {"quantiteMax":quantiteMax, "maxim":maxim};
+  if(qty === true){
+  return quantiteMax;
+  } 
+  return maxim;
+}
+
+calcCost (qty : number) {
+  let quantiteMax = 0;
+  let maxim = 0;
+  let max = this.product.cout*(this.product.croissance**this.product.quantite);
+    for (let i =0; i<qty;i++) {
+      maxim += max;
+      quantiteMax ++;
+      max = max * this.product.croissance;
+    }
+  return maxim;
 }
 
   onBuy(){
-    if(this._qtmulti == 'X1' &&  this._money >= this.product.cout){
+    if(this._qtmulti == 'X1' &&  this._money >= this.calcCost(1)){
       var coutAchat = this.product.cout;
       this.product.quantite = this.product.quantite + 1;
     } 
-    else if(this._qtmulti == 'X10' &&  this._money >= this.product.cout*10){
+    else if(this._qtmulti == 'X10' &&  this._money >= this.calcCost(10)){
       var coutAchat = this.product.cout*10;
       this.product.quantite = this.product.quantite + 10;
     }
-    else if(this._qtmulti == 'X100' &&  this._money >= this.product.cout*100){
+    else if(this._qtmulti == 'X100' &&  this._money >= this.calcCost(100)){
       var coutAchat = this.product.cout*100;
       this.product.quantite = this.product.quantite + 100;
     }
     else {
-      var coutAchat = this.calcMaxCanBuy().maxim;
-      this.product.quantite = this.product.quantite + this.calcMaxCanBuy().quantiteMax;
+      var coutAchat = this.calcMaxCanBuy(false);
+      this.product.quantite = this.product.quantite + this.calcMaxCanBuy(true);
     } 
     console.log(coutAchat);
     this.notifyBuying.emit(coutAchat);

@@ -16,7 +16,7 @@
         <div class="col-4 col-sm-6">
             <div class="row">
                 <button type=button class="button col-md-5 btn btn-warning btn-md" (click)="onBuy()" *ngIf="_qtmulti != 'Max'">Buy {{_qtmulti}}</button>
-                <button type=button class="button col-md-5 btn btn-warning btn-md" (click)="onBuy()" *ngIf="_qtmulti == 'Max'">Buy X{{calcMaxCanBuy().quantiteMax}}</button>
+                <button type=button class="button col-md-5 btn btn-warning btn-md" (click)="onBuy()" *ngIf="_qtmulti == 'Max'">Buy X{{calcMaxCanBuy(true)}}</button>
                 <div class="col-md-7 text-center textproduct">00:00:00</div><br>
             </div>
         </div>
