@@ -17,6 +17,7 @@ export class AppComponent {
   qtmulti : string = "X1";
   managerDispo : boolean;
   upgradeDispo : boolean;
+  angelDispo : boolean;
 
   constructor(private service: RestserviceService, private toastr : ToastrService){
     this.server = service.getServer(); 
@@ -31,7 +32,7 @@ export class AppComponent {
     this.world.score = this.world.score + p.revenu;
     console.log('Je ne fais que passer')
     this.managerDisponibility();
-    //this.upgradeDisponibility();
+    this.upgradeDisponibility();
   }
 
   commutateur(){
@@ -56,7 +57,7 @@ export class AppComponent {
       this.world.money = this.world.money;
     }
     this.managerDisponibility();
-    //this.upgradeDisponibility();
+    this.upgradeDisponibility();
   }
 
 
@@ -71,7 +72,7 @@ export class AppComponent {
     })
   }
 
-  /*upgradeDisponibility(){
+  upgradeDisponibility(){
     this.upgradeDispo = false;
     this.world.upgrades.pallier.map(upgrade => {
       if(!this.upgradeDispo){
@@ -80,7 +81,18 @@ export class AppComponent {
         }
       }
     })
-  }*/
+  }
+
+  angelUpgradesDisponibility() {
+    this.angelDispo = false;
+    this.world.angelupgrades.pallier.map(angel => {
+      if (!this.angelDispo) {
+        if (!angel.unlocked && this.world.activeangels > angel.seuil) {
+          this.angelDispo = true
+        }
+      }
+    })
+  }
 
   achatManager(m : Pallier){
     if(this.world.money >= m.seuil){
@@ -99,7 +111,7 @@ export class AppComponent {
     }
   }
 
-  /*achatUpgrade (u : Pallier){
+  achatUpgrade (u : Pallier){
     if(this.world.money >= u.seuil){
       this.world.money = this.world.money - u.seuil;
       this.world.upgrades.pallier[this.world.upgrades.pallier.indexOf(u)].unlocked = true;
@@ -118,6 +130,53 @@ export class AppComponent {
       }
       this.upgradeDisponibility();
     }
+  }
+
+  achatAngelUpgrade(p: Pallier) {
+    if (this.world.activeangels > p.seuil) {
+      this.world.activeangels = this.world.activeangels - 1;
+      this.world.angelupgrades.pallier[this.world.angelupgrades.pallier.indexOf(p)].unlocked = true;
+      if (p.typeratio == "ange") {
+        this.world.money = this.world.money * p.ratio + this.world.money;
+        this.world.score = this.world.score * p.ratio + this.world.score;
+        this.toastr.success("Achat d'un upgrade de " + p.typeratio + " pour tous les produits", "Upgrade Angels")
+      }
+      //au cas ou c'est pas un upgrade de type ange
+      else {
+        //au cas ou c'est un upgrade global
+        if (p.idcible = 0) {
+          this.productsComponent.forEach(prod => prod.calcUpgrade(p));
+          this.toastr.success("Achat d'un upgrade de " + p.typeratio + " pour tous les produits", "Upgrade Angels");
+        }
+        //au cas ou c'est ciblé pour un produit
+        else {
+          this.productsComponent.forEach(prod => {
+            if (p.idcible == prod.product.id) {
+              prod.calcUpgrade(p);
+              this.toastr.success("Achat d'un upgrade de " + p.typeratio + " pour " + prod.product.name, "Upgrade Angels")
+            }
+          })
+
+        }
+      }
+    }
+    this.managerDisponibility();
+    this.upgradeDisponibility();
+  }
+
+  /*bonusAllunlock() {
+    //on recherche la quantité minmal des produits
+    let minQuantite = Math.min(
+      ...this.productsComponent.map(p => p.product.quantite)
+    )
+    this.world.allunlocks.pallier.map(value => {
+      //si la quantité minimal dépasse le seuil, on débloque le produit concerné
+      if (!value.unlocked && minQuantite >= value.seuil) {
+        this.world.allunlocks.pallier[this.world.allunlocks.pallier.indexOf(value)].unlocked = true;
+        this.productsComponent.forEach(prod => prod.calcUpgrade(value))
+        this.toastr.success("Bonus de " + value.typeratio + " effectué sur tous les produits", "bonus global");
+      }
+    })
   }*/
 
 }

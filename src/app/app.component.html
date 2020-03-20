@@ -13,9 +13,9 @@
 
         <div class="row">
             <div class="col-6">
-                <h4 class="texthaut">Republican Credits: </h4><span class="moneystyle" [innerHTML]="world.money | bigvalue"></span>
+                <h4 class="texthaut">Republican Credits : </h4><span class="moneystyle" [innerHTML]="world.money | bigvalue"></span>
                 <button type="button" class="button btn-warning btn-lg pull-right" (click)="commutateur()">Buy {{qtmulti}}</button>
-                <h4 class="texthaut">Ewoks: </h4>
+                <h4 class="texthaut">Ewoks : </h4>
             </div>
         </div>
     </div>
@@ -23,8 +23,8 @@
     <div class="row">
         <div class="col-md-2">
             <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="managersModal.show()">Managers</button></p><br>
-            <p><button type="button" class="btn btn-primary btn-lg">Cash Upgrades</button></p><br>
-            <p><button type="button" class="btn btn-primary btn-lg">Angel Upgrades</button></p><br>
+            <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="upgradesModal.show()">Cash Upgrades</button></p><br>
+            <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="angelupgradesModal.show()">Angel Upgrades</button></p><br>
             <p><button type="button" class="btn btn-primary btn-lg">Unlocks</button></p><br>
             <p><button type="button" class="btn btn-primary btn-lg">Investors</button></p><br>
         </div>
@@ -39,19 +39,20 @@
 
     <app-modal #managersModal>
         <div class="app-modal-header">
-            <h4 class="modal-title text-center">Managers make you feel better !</h4>
+            <h4 class="modal-title text-center" style="font-size:x-large;">Managers make you feel better !</h4>
         </div>
-        <div class="app-modal-body">
+        <div class="app-modal-body" style="padding-right: 10px;">
             <div *ngFor="let manager of world.managers.pallier">
                 <div *ngIf="!manager.unlocked" class="row rounded notif border-bottom">
                     <div class="col-md-5">
-                        <img class="img-responsive" style="" [src]="'http://localhost:8080/'+manager.logo" style="cursor:pointer" />
+                        <img class="img-responsive" [src]="'http://localhost:8080/'+manager.logo" style="cursor:pointer" />
                     </div>
                     <div class="col-md-7">
                         <div class="row">
                             <button class="btn btn-info pull-right" style="height: 100px; width: 100px;" (click)="achatManager(manager)" [disabled]="world.money < manager.seuil">Hire!</button>
-                            <span class="txt2 row text-center font-weight-bold" style="font-size:x-large;">{{manager.name}}</span>
-                            <span class="text-center" style="font-family: 'ROG Fonts';">Price : {{manager.seuil}} CR</span>
+                            <span class="txt2 row text-center font-weight-bold" style="font-size:x-large; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">{{manager.name}}
+                                <br><span style="font-family: 'ROG Fonts'; font-size: small; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">Price : {{manager.seuil}} CR</span>
+                            </span>
                         </div>
 
                     </div>
@@ -61,27 +62,77 @@
         <div class="app-modal-footer"> <button type="button" class="btn btn-default" (click)="managersModal.hide()">Close</button> </div>
     </app-modal>
 
-    <!--<app-modal #upgradesModal>
+    <app-modal #upgradesModal>
         <div class="app-modal-header">
-            <h4 class="modal-title">Buy some skills to boost your ships !</h4>
+            <h4 class="modal-title text-center" style="font-size:x-large;">Upgrade your ships!</h4>
         </div>
-        <div class="app-modal-body">
+        <div class="app-modal-body" style="padding-right: 10px;">
             <div *ngFor="let upgrade of world.upgrades.pallier">
                 <div *ngIf="!upgrade.unlocked" class="row rounded notif border-bottom">
-                    <div class="col-md-4">
-                        <span class="txt row text-center font-weight-bold">{{upgrade.name}}</span>
-                        <span class="row text-center">
-                            <img class=".img-responsive" width="100%" [src]="'http://localhost:8080/'+upgrade.logo" style="cursor:pointer" />
-                        </span>
-                        <span class="row text-center">{{upgrade.seuil}}</span>
+                    <div class="col-md-5">
+                        <img class="img-responsive" [src]="'http://localhost:8080/'+upgrade.logo" style="cursor:pointer" />
                     </div>
-                    <div class="col-md-3">
-                        <button style="height: 100px; width: 100px;" class="btn btn-info" (click)="achatUpgrade(upgrade)">Buy !</button>
+                    <div class="col-md-7">
+                        <div class="row">
+                            <button class="btn btn-info pull-right" style="height: 100px; width: 100px;" (click)="achatUpgrade(upgrade)" [disabled]="world.money < upgrade.seuil">Buy!</button>
+                            <span class="txt2 row text-center font-weight-bold" style="font-size:x-large; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">{{upgrade.name}}
+                                <br><span style="font-family: 'ROG Fonts'; font-size: small; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">Price : {{upgrade.seuil}} CR</span>
+                            </span>
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
         <div class="app-modal-footer"> <button type="button" class="btn btn-default" (click)="upgradesModal.hide()">Close</button> </div>
+    </app-modal>
+
+    <app-modal #angelupgradesModal>
+        <div class="app-modal-header">
+            <h4 class="modal-title text-center" style="font-size:x-large;">May The Ewoks be with you !</h4>
+        </div>
+        <div class="app-modal-body" style="padding-right: 10px;">
+            <div *ngFor="let angelupgrade of world.angelupgrades.pallier">
+                <div *ngIf="!angelupgrade.unlocked" class="row rounded notif border-bottom">
+                    <div class="col-md-5">
+                        <img class="img-responsive" [src]="'http://localhost:8080/'+angelupgrade.logo" style="cursor:pointer" />
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row">
+                            <button class="btn btn-info pull-right" style="height: 100px; width: 100px;" (click)="achatAngelUpgrade(angelupgrade)" [disabled]="world.money < angelupgrade.seuil">Buy!</button>
+                            <span class="txt2 row text-center font-weight-bold" style="font-size:large; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
+                                {{angelupgrade.name}} <br><span style="font-family: 'ROG Fonts'; font-size: small; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">Price : {{angelupgrade.seuil}} ewoks</span></span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="app-modal-footer"> <button type="button" class="btn btn-default" (click)="angelupgradesModal.hide()">Close</button> </div>
+    </app-modal>
+
+    <!--<app-modal #unlockModal>
+        <div class="app-modal-header">
+            <h4 class="modal-title text-center" style="font-size:x-large;">May The Force be with you !</h4>
+        </div>
+        <div class="app-modal-body">
+            <div *ngFor="let unlock of world.allunlocks.pallier">
+                <div *ngIf="!unlock.unlocked" class="row rounded notif border-bottom">
+                    <div class="col-md-5">
+                        <img class="img-responsive" [src]="'http://localhost:8080/'+unlock.logo" style="cursor:pointer" />
+                    </div>
+                    <div class="col-md-7">
+                        <div class="row">
+                            <button class="btn btn-info pull-right" style="height: 100px; width: 100px;" (click)="achatAngelUpgrade(unlock)" [disabled]="world.money < angelupgrade.seuil">Buy!</button>
+                            <span class="txt2 row text-center font-weight-bold" style="font-size:large; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
+                                {{unlock.name}} <br><span style="font-family: 'ROG Fonts'; font-size: small; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">Price : {{angelupgrade.seuil}} ewoks</span></span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="app-modal-footer"> <button type="button" class="btn btn-default" (click)="unlockModal.hide()">Close</button> </div>
     </app-modal>-->
 
 </div>

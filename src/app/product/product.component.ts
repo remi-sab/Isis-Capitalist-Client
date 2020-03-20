@@ -17,7 +17,6 @@ export class ProductComponent implements OnInit {
   lastupdate: number;
   product: Product;
   isRun: boolean;
-  maxAchat: number;
 
   @Output() notifyProduction: EventEmitter<Product> = new EventEmitter<Product>();
   @Output() notifyBuying: EventEmitter<number> = new EventEmitter<number>();
@@ -64,10 +63,7 @@ export class ProductComponent implements OnInit {
         color: '#1febfd',
         trailColor: '#eee',
         trailWidth: 1,
-        svgStyle: { width: '100%', height: '100%' },
-        //step (state, progressbar) => {
-          //progressbar.path.setAttribute('stroke', state.color);
-        //}        
+        svgStyle: { width: '100%', height: '100%' },      
       });
     }, 100)
 }
@@ -95,7 +91,6 @@ export class ProductComponent implements OnInit {
         this.progressbar.set(0);
         this.notifyProduction.emit(this.product);
       }
-      //this.notifyProduction.emit(this.product);
     }
     if (this.product.managerUnlocked) {
       this.startFabrication();
@@ -152,7 +147,7 @@ calcCost (qty : number) {
     this.notifyBuying.emit(coutAchat);
   }
 
-  /*calcUpgrade(pallier: Pallier) {
+  calcUpgrade(pallier: Pallier) {
     switch (pallier.typeratio) {
       case 'vitesse':
         this.product.vitesse = this.product.vitesse / pallier.ratio;
@@ -161,6 +156,6 @@ calcCost (qty : number) {
         this.product.revenu = this.product.revenu * pallier.ratio;
         break;
     }
-  }*/
+  }
 
 }
