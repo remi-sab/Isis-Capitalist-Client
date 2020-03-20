@@ -3,7 +3,7 @@
 
         <div class="col-md-4">
             <h5 class="productname">{{product.name}}</h5>
-            <img class=".img-responsive" width="100%" [src]="'http://localhost:8080/'+product.logo" style="cursor:pointer" (click)="startFabrication()" />
+            <img class=".img-responsive" width="100%" [src]="'http://localhost:8080/'+product.logo" style="cursor:pointer; max-width:250px;" (click)="startFabrication()" />
             <div class="row">
                 <div class="col-md-9 text-center textproduct">{{product.quantite}}</div>
             </div>

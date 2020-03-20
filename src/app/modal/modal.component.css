@@ -1,0 +1,6 @@
+.modal-content {
+    background-image: url('http://localhost:8080/fondmodal.jpg');
+    background-size: cover;
+    background-position: center center;
+    font-family: 'Trajan Pro';
+}

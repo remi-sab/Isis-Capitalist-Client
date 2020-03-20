@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-modal',
   template: `
   <div (click)="onContainerClicked($event)" class="modal fade" tabindex="-1" [ngClass]="{'in': visibleAnimate}" [ngStyle]="{'display': visible ? 'block' : 'none', 'opacity': visibleAnimate ? 1 : 0}">
-    <div class="modal-dialog modal-centered">
+    <div class="modal-dialog modal-centered" style="overflow-y: auto; max-height:600px;">
         <div class="modal-content">
             <div class="modal-header">
                 <ng-content select=".app-modal-header"></ng-content>
