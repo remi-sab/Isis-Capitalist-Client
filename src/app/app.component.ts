@@ -3,6 +3,7 @@ import { RestserviceService } from './restservice.service';
 import { World, Product, Pallier } from './world';
 import { ProductComponent } from './product/product.component';
 import { ToastrService } from 'ngx-toastr';
+import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 
 @Component({
   selector: 'app-root',
@@ -28,8 +29,8 @@ export class AppComponent {
   }
 
   onProductionDone(p : Product){
-    this.world.money = this.world.money + p.revenu;
-    this.world.score = this.world.score + p.revenu;
+    this.world.money = this.world.money + p.revenu*p.quantite;
+    this.world.score = this.world.score + p.revenu*p.quantite;
     console.log('Je ne fais que passer')
     this.managerDisponibility();
     this.upgradeDisponibility();
@@ -45,8 +46,6 @@ export class AppComponent {
       break;
       case 'Max' : this.qtmulti = 'X1';
       break;
-      //default : this.qtmulti = 'X1';
-      //break;
     }
   }
 
@@ -107,7 +106,7 @@ export class AppComponent {
         }
       });
       this.managerDisponibility();
-      this.toastr.success("Achat de " + m.name + " effectué", "Manager")
+      this.toastr.success("Achat du Manager " + m.name + " effectué");
     }
   }
 
@@ -164,8 +163,8 @@ export class AppComponent {
     this.upgradeDisponibility();
   }
 
-  /*bonusAllunlock() {
-    //on recherche la quantité minmal des produits
+  bonusAllunlock() {
+    //on recherche la quantité minimale des produits
     let minQuantite = Math.min(
       ...this.productsComponent.map(p => p.product.quantite)
     )
@@ -173,10 +172,19 @@ export class AppComponent {
       //si la quantité minimal dépasse le seuil, on débloque le produit concerné
       if (!value.unlocked && minQuantite >= value.seuil) {
         this.world.allunlocks.pallier[this.world.allunlocks.pallier.indexOf(value)].unlocked = true;
-        this.productsComponent.forEach(prod => prod.calcUpgrade(value))
-        this.toastr.success("Bonus de " + value.typeratio + " effectué sur tous les produits", "bonus global");
+        this.productsComponent.forEach(prod => prod.calcUpgrade(value));
+        this.toastr.success("Bonus de " + value.typeratio + " effectué sur tous les produits");
       }
     })
-  }*/
+  }
 
+  productUnlockDone  (p : Pallier){
+    this.productsComponent.forEach(prod => {
+      if (p.idcible == prod.product.id) {
+        prod.calcUpgrade(p);
+        this.toastr.success("Bonus de " + p.typeratio + " effectué sur " + prod.product.name);
+      }
+  });
+}
+  
 }

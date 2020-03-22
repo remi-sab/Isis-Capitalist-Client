@@ -20,6 +20,7 @@ export class ProductComponent implements OnInit {
 
   @Output() notifyProduction: EventEmitter<Product> = new EventEmitter<Product>();
   @Output() notifyBuying: EventEmitter<number> = new EventEmitter<number>();
+  @Output() notifyUnlocked: EventEmitter<Pallier> = new EventEmitter<Pallier>();
 
   constructor() { }
 
@@ -45,7 +46,7 @@ export class ProductComponent implements OnInit {
   @Input() 
   set qtmulti(value: string) { 
     if(value == 'Max'){
-      this._qtmulti = 'X'+this.calcMaxCanBuy(true);
+      this._qtmulti = 'X'+this.calcMaxCanBuy();
     } else {
       this._qtmulti = value;
     }
@@ -97,65 +98,68 @@ export class ProductComponent implements OnInit {
   }
 }
 
-calcMaxCanBuy(qty : boolean) {
+calcMaxCanBuy() {
   let quantiteMax = 0;
-  let maxim = 0;
-  let max = this.product.cout*(this.product.croissance**this.product.quantite);
-  if(max <= this._money){
-    while ((maxim+max) < this._money) {
-      maxim += max;
-      quantiteMax ++;
-      max = max * this.product.croissance;
-    }
+  let totalCost = 0;
+  let costForOne = this.product.cout*(this.product.croissance**this.product.quantite);
+  while ((totalCost+costForOne) <= this._money) {
+    totalCost +=costForOne;
+    quantiteMax ++;
+    costForOne = costForOne * this.product.croissance;
   }
-  if(qty === true){
   return quantiteMax;
-  } 
-  return maxim;
 }
 
 calcCost (qty : number) {
-  let quantiteMax = 0;
-  let maxim = 0;
-  let max = this.product.cout*(this.product.croissance**this.product.quantite);
-    for (let i =0; i<qty;i++) {
-      maxim += max;
-      quantiteMax ++;
-      max = max * this.product.croissance;
-    }
-  return maxim;
+  let totalCost = 0;
+  let costForOne = this.product.cout*(this.product.croissance**this.product.quantite);
+  for(let i=0; i<qty; i++){
+    totalCost += costForOne;
+    costForOne = costForOne*this.product.croissance;
+  }
+  return totalCost;
 }
 
   onBuy(){
-    if(this._qtmulti == 'X1' &&  this._money >= this.calcCost(1)){
-      var coutAchat = this.product.cout;
-      this.product.quantite = this.product.quantite + 1;
-    } 
-    else if(this._qtmulti == 'X10' &&  this._money >= this.calcCost(10)){
-      var coutAchat = this.product.cout*10;
-      this.product.quantite = this.product.quantite + 10;
+    let qty : number;
+    if(this._qtmulti === 'X1'){
+      qty=1;
+    }else if(this._qtmulti === 'X10'){
+        qty=10;
+    }else if(this._qtmulti == 'X100'){
+        qty=100
+    }else{
+      qty=this.calcMaxCanBuy();
     }
-    else if(this._qtmulti == 'X100' &&  this._money >= this.calcCost(100)){
-      var coutAchat = this.product.cout*100;
-      this.product.quantite = this.product.quantite + 100;
-    }
-    else {
-      var coutAchat = this.calcMaxCanBuy(false);
-      this.product.quantite = this.product.quantite + this.calcMaxCanBuy(true);
-    } 
+    var coutAchat = this.calcCost(qty);
     console.log(coutAchat);
-    this.notifyBuying.emit(coutAchat);
+    if(this._money >= coutAchat){
+      this.notifyBuying.emit(coutAchat);
+      this.product.quantite = this.product.quantite + qty;
+    }
+    this.productsUnlocks();
   }
 
   calcUpgrade(pallier: Pallier) {
     switch (pallier.typeratio) {
-      case 'vitesse':
+      case 'VITESSE':
         this.product.vitesse = this.product.vitesse / pallier.ratio;
         break;
-      case 'gain':
+      case 'GAIN':
         this.product.revenu = this.product.revenu * pallier.ratio;
         break;
     }
   }
+
+  productsUnlocks(){
+    this.product.palliers.pallier.forEach(palier => {
+      if(!palier.unlocked && this.product.quantite >= palier.seuil){
+        palier.unlocked = true;
+        this.notifyUnlocked.emit(palier);
+      }
+      
+    });
+
+    }
 
 }

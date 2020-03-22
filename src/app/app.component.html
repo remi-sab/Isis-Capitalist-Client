@@ -25,12 +25,12 @@
             <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="managersModal.show()">Managers</button></p><br>
             <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="upgradesModal.show()">Cash Upgrades</button></p><br>
             <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="angelupgradesModal.show()">Angel Upgrades</button></p><br>
-            <p><button type="button" class="btn btn-primary btn-lg">Unlocks</button></p><br>
-            <p><button type="button" class="btn btn-primary btn-lg">Investors</button></p><br>
+            <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="unlockModal.show()">Unlocks</button></p><br>
+            <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="investorsModal.show()">Investors</button></p><br>
         </div>
         <div class="col-md-10">
             <p>
-                <app-product *ngFor="let product of world.products.product" (notifyProduction)="onProductionDone($event)" (notifyBuying)="onBuyDone($event)" [prod]="product" [money]="world.money" [qtmulti]="qtmulti" class="product col-md-6">
+                <app-product *ngFor="let product of world.products.product" (notifyProduction)="onProductionDone($event)" (notifyBuying)="onBuyDone($event)" (notifyUnlocked)="productUnlockDone($event)" [prod]="product" [money]="world.money" [qtmulti]="qtmulti" class="product col-md-6">
                 </app-product>
 
             </p>
@@ -111,9 +111,9 @@
         <div class="app-modal-footer"> <button type="button" class="btn btn-default" (click)="angelupgradesModal.hide()">Close</button> </div>
     </app-modal>
 
-    <!--<app-modal #unlockModal>
+    <app-modal #unlockModal>
         <div class="app-modal-header">
-            <h4 class="modal-title text-center" style="font-size:x-large;">May The Force be with you !</h4>
+            <h4 class="modal-title text-center" style="font-size:x-large;">Some help to improve your space business!</h4>
         </div>
         <div class="app-modal-body">
             <div *ngFor="let unlock of world.allunlocks.pallier">
@@ -123,9 +123,8 @@
                     </div>
                     <div class="col-md-7">
                         <div class="row">
-                            <button class="btn btn-info pull-right" style="height: 100px; width: 100px;" (click)="achatAngelUpgrade(unlock)" [disabled]="world.money < angelupgrade.seuil">Buy!</button>
                             <span class="txt2 row text-center font-weight-bold" style="font-size:large; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
-                                {{unlock.name}} <br><span style="font-family: 'ROG Fonts'; font-size: small; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">Price : {{angelupgrade.seuil}} ewoks</span></span>
+                                {{unlock.name}} <br><span style="font-family: 'ROG Fonts'; font-size: small; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">To unlock : {{unlock.seuil}} unities</span></span>
                         </div>
 
                     </div>
@@ -133,7 +132,38 @@
             </div>
         </div>
         <div class="app-modal-footer"> <button type="button" class="btn btn-default" (click)="unlockModal.hide()">Close</button> </div>
-    </app-modal>-->
+    </app-modal>
+
+    <app-modal #investorsModal>
+        <div class="app-modal-header">
+            <h4 class="modal-title">Investors !</h4>
+        </div>
+        <div style="color: aliceblue;" class="app-modal-body">
+            <div style="height: 80px; padding-top: 10px; background-color: #58355E;" class="row border rounded text-center">
+                <span class="col-md-12">Your Total angels</span>
+                <span style="font-size: 30px;" class="col-md-12">{{world.totalangels}}</span>
+            </div>
+            <div class="row">
+                <div style="height: 200px; padding-top: 40px; padding-left: 30px;" class="col-md-6 border bg-info rounded">
+                    <div class="row">
+                        <span style="font-size: 35px;" class="col-md-12 text-center">{{world.angelbonus}}%</span>
+                        <span style="margin-left: 20px;">Profit Bonus Per angel</span>
+                    </div>
+                </div>
+                <div style="height: 200px; padding-top: 4px; padding-left: 15px;" class="col-md-6 border bg-info rounded">
+                    <div class="row">
+                        <span style="font-size: 35px;" class="col-md-12 text-center">{{world.activeangels}}</span>
+                        <span style="margin-left: 20px;">Angels Claimed with Restart</span>
+                        <button class="col-md-9 btn text-white border rounded border-info validInv">Claim</button>
+                        <span class="col-md-12 text-center">Restart Your businesses</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="app-modal-footer">
+            <button type="button" class="btn btn-danger" (click)="investorsModal.hide()">Close</button>
+        </div>
+    </app-modal>
 
 </div>
 
