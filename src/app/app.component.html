@@ -5,19 +5,29 @@
             <img src="http://localhost:8080/LogoSR.png" class="img-responsive"><br>
         </div>
 
+        <div class='col-md-2'>
+            <span class="row" style="font-family: 'Trajan Pro'; font-size: large;">Pseudo : </span><br>
+            <input type="text" [(ngModel)]="username" (change)="onUsernameChanged()" />
+        </div>
+
 
         <div class="col-md-3">
             <span class="worldname" id='worldname'>{{world.name}}</span>
             <img src="http://localhost:8080/tatooine.png" class="image" style="width:auto; height: 120px;">
         </div>
 
-        <div class="row">
-            <div class="col-6">
-                <h4 class="texthaut">Republican Credits : </h4><span class="moneystyle" [innerHTML]="world.money | bigvalue"></span>
-                <button type="button" class="button btn-warning btn-lg pull-right" (click)="commutateur()">Buy {{qtmulti}}</button>
-                <h4 class="texthaut">Ewoks : </h4>
-            </div>
+
+        <div class="col-md-3">
+            <h4 class="texthaut">Score : </h4><span class="moneystyle" [innerHTML]="world.score | bigvalue"></span>
+            <h4 class="texthaut">Republican Credits : </h4><span class="moneystyle" [innerHTML]="world.money | bigvalue"></span>
+            <h4 class="texthaut">Ewoks : </h4><span class="moneystyle" [innerHTML]="world.totalangels | bigvalue"></span>
         </div>
+
+
+        <div class="col-md-2">
+            <button type="button" class="button btn-warning btn-lg pull-right" (click)="commutateur()">Buy {{qtmulti}}</button>
+        </div>
+
     </div>
 
     <div class="row">
@@ -130,6 +140,11 @@
                     </div>
                 </div>
             </div>
+
+
+
+
+
         </div>
         <div class="app-modal-footer"> <button type="button" class="btn btn-default" (click)="unlockModal.hide()">Close</button> </div>
     </app-modal>

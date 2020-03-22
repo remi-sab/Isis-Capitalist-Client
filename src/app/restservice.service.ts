@@ -29,8 +29,10 @@ public getServer() : string {
   } 
   
   getWorld(): Promise<World> { 
-    return this.http.get(this.server + "generic/world")
-     .toPromise().catch(this.handleError);
+    return this.http.get(this.server + "generic/world", {
+    headers: this.setHeaders(this.user)})
+     .toPromise().then(response =>
+    response).catch(this.handleError);
     };
 
   private setHeaders (user: string) : HttpHeaders {

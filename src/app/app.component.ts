@@ -15,6 +15,7 @@ export class AppComponent {
   title = 'IsisCapitalist-Client';
   world: World = new World();
   server: string;
+  username: string = '';
   qtmulti : string = "X1";
   managerDispo : boolean;
   upgradeDispo : boolean;
@@ -26,6 +27,22 @@ export class AppComponent {
       world => { this.world = world; 
         console.log("world:",world);
       }).catch(error => {console.log("error:",error)});
+
+      this.createUsername();
+  }
+
+  onUsernameChanged(): void {
+    localStorage.setItem("username", this.username);
+    this.service.setUser(this.username);
+  }
+
+  createUsername(): void {
+    this.username = localStorage.getItem("username");
+    if (this.username == '') {
+      this.username = 'Jedi' + Math.floor(Math.random() * 10000);
+      localStorage.setItem("username", this.username);
+    }
+    this.service.setUser(this.username);
   }
 
   onProductionDone(p : Product){
