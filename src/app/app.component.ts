@@ -4,6 +4,7 @@ import { World, Product, Pallier } from './world';
 import { ProductComponent } from './product/product.component';
 import { ToastrService } from 'ngx-toastr';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
+import { delay } from './utils/delay.function';
 
 @Component({
   selector: 'app-root',
@@ -29,6 +30,10 @@ export class AppComponent {
       }).catch(error => {console.log("error:",error)});
 
       this.createUsername();
+  }
+
+  ngOnInit(){
+
   }
 
   onUsernameChanged(): void {
@@ -66,14 +71,16 @@ export class AppComponent {
     }
   }
 
-  onBuyDone(n : number){
+  async onBuyDone(n : number){
     if(this.world.money >= n){
     this.world.money = this.world.money - n;
     } else {
       this.world.money = this.world.money;
     }
+    await delay(0);
     this.managerDisponibility();
     this.upgradeDisponibility();
+    this.bonusAllunlock();
   }
 
 
@@ -181,27 +188,29 @@ export class AppComponent {
   }
 
   bonusAllunlock() {
-    //on recherche la quantité minimale des produits
-    let minQuantite = Math.min(
-      ...this.productsComponent.map(p => p.product.quantite)
-    )
-    this.world.allunlocks.pallier.map(value => {
-      //si la quantité minimal dépasse le seuil, on débloque le produit concerné
-      if (!value.unlocked && minQuantite >= value.seuil) {
-        this.world.allunlocks.pallier[this.world.allunlocks.pallier.indexOf(value)].unlocked = true;
-        this.productsComponent.forEach(prod => prod.calcUpgrade(value));
-        this.toastr.success("Bonus de " + value.typeratio + " effectué sur tous les produits");
+    this.world.allunlocks.pallier.forEach(palier => {
+      let minQuantite : boolean = true;
+      this.productsComponent.forEach(p => {
+        console.log(p.product.quantite);
+        if(p.product.quantite < palier.seuil){
+          minQuantite=false;
+        }
+      });
+      console.log(minQuantite);
+      if(minQuantite){
+        this.world.allunlocks.pallier[this.world.allunlocks.pallier.indexOf(palier)].unlocked = true;
+        this.productsComponent.forEach(prod => prod.calcUpgrade(palier));
+        this.toastr.success("Bonus de " + palier.typeratio + " effectué sur tous les produits");
       }
-    })
+    });
   }
 
   productUnlockDone  (p : Pallier){
     this.productsComponent.forEach(prod => {
       if (p.idcible == prod.product.id) {
-        prod.calcUpgrade(p);
         this.toastr.success("Bonus de " + p.typeratio + " effectué sur " + prod.product.name);
-      }
-  });
-}
+        }
+    });
+  }
   
 }

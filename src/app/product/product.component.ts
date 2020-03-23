@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter, ElementRef } from '@angular/core';
 import { Product, Pallier } from '../world';
+import { delay } from '../utils/delay.function';
 
 
 declare var require;
@@ -53,7 +54,9 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    setInterval(() => { this.calcScore(); }, 100);
+    setInterval(() => { this.calcScore();}, 100);
+    this.productsUnlocks();
+    
   }
 
   ngAfterViewInit() {
@@ -98,7 +101,7 @@ export class ProductComponent implements OnInit {
   }
 }
 
-calcMaxCanBuy() {
+  calcMaxCanBuy() {
   let quantiteMax = 0;
   let totalCost = 0;
   let costForOne = this.product.cout*(this.product.croissance**this.product.quantite);
@@ -141,20 +144,21 @@ calcCost (qty : number) {
   }
 
   calcUpgrade(pallier: Pallier) {
-    switch (pallier.typeratio) {
+      switch (pallier.typeratio) {
       case 'VITESSE':
         this.product.vitesse = this.product.vitesse / pallier.ratio;
         break;
       case 'GAIN':
         this.product.revenu = this.product.revenu * pallier.ratio;
         break;
-    }
+      }
   }
 
   productsUnlocks(){
     this.product.palliers.pallier.forEach(palier => {
       if(!palier.unlocked && this.product.quantite >= palier.seuil){
         palier.unlocked = true;
+        this.calcUpgrade(palier);
         this.notifyUnlocked.emit(palier);
       }
       

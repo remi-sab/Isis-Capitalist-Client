@@ -136,7 +136,22 @@
                             <span class="txt2 row text-center font-weight-bold" style="font-size:large; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
                                 {{unlock.name}} <br><span style="font-family: 'ROG Fonts'; font-size: small; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">To unlock : {{unlock.seuil}} unities</span></span>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngFor="let product of world.products.product">
+                <div *ngFor="let unlock of product.palliers.pallier">
+                    <div *ngIf="!unlock.unlocked" class="row rounded notif border-bottom">
+                        <div class="col-md-5">
+                            <img class="img-responsive" [src]="'http://localhost:8080/'+unlock.logo" style="cursor:pointer" />
+                        </div>
+                        <div class="col-md-7">
+                            <div class="row">
+                                <span class="txt2 row text-center font-weight-bold" style="font-size:large; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
+                                    {{unlock.name}} <br><span style="font-family: 'ROG Fonts'; font-size: small; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">To unlock : {{unlock.seuil}} unities</span></span>
+                            </div>
 
+                        </div>
                     </div>
                 </div>
             </div>
