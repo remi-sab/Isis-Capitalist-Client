@@ -7,7 +7,7 @@ import { World, Pallier, Product} from './world';
 })
 export class RestserviceService {
   server = 'http://localhost:8080/isis/'
-  user = "";
+  user = ""; 
 
   constructor(private http:HttpClient) {}
 
@@ -30,15 +30,33 @@ public getServer() : string {
   
   getWorld(): Promise<World> { 
     return this.http.get(this.server + "generic/world", {
-    headers: this.setHeaders(this.user)})
-     .toPromise().then(response =>
-    response).catch(this.handleError);
+    headers: this.setHeaders(localStorage.getItem("username"))})
+     .toPromise()
+     .then(response => response)
+     .catch(this.handleError);
     };
 
   private setHeaders (user: string) : HttpHeaders {
+    console.log(localStorage.getItem("username"));
     var headers = new HttpHeaders();
-    headers.append("X-User", user);
+    headers = headers.append("X-user", localStorage.getItem("username"));
     return headers;
+  }
+
+  public saveWorld (world : World) {
+    this.http
+    .put(this.server + "generic/world", world, {
+      headers: {"X-user": localStorage.getItem("username")}
+    })
+    .subscribe(
+      () => {
+        console.log('Enregistrement effectué');
+      },
+      (error)=>{
+        console.log('Erreur : ' + error);
+      }
+      );
+    
   }
 
 }

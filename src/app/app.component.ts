@@ -32,8 +32,15 @@ export class AppComponent {
       this.createUsername();
   }
 
-  ngOnInit(){
+  ngOnInit() : void {
+    setInterval(() => { 
+      this.service.saveWorld(this.world);
+      this.managerDisponibility();
+      this.upgradeDisponibility();
+      this.bonusAllunlock();
+    }, 5000)
 
+    
   }
 
   onUsernameChanged(): void {
@@ -53,7 +60,6 @@ export class AppComponent {
   onProductionDone(p : Product){
     this.world.money = this.world.money + p.revenu*p.quantite;
     this.world.score = this.world.score + p.revenu*p.quantite;
-    console.log('Je ne fais que passer')
     this.managerDisponibility();
     this.upgradeDisponibility();
   }
@@ -183,8 +189,6 @@ export class AppComponent {
         }
       }
     }
-    this.managerDisponibility();
-    this.upgradeDisponibility();
   }
 
   bonusAllunlock() {
