@@ -33,11 +33,11 @@
 
     <div class="row">
         <div class="col-md-2">
-            <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="managersModal.show()">Managers</button></p><br>
-            <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="upgradesModal.show()">Cash Upgrades</button></p><br>
-            <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="angelupgradesModal.show()">Angel Upgrades</button></p><br>
-            <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="unlockModal.show()">Unlocks</button></p><br>
-            <p><button type="button" class="btn btn-primary btn-lg" data-toggle="modal" (click)="investorsModal.show()">Investors</button></p><br>
+            <p><button type="button" class="btn btn-primary btn-block" data-toggle="modal" (click)="managersModal.show()">Managers</button></p><br>
+            <p><button type="button" class="btn btn-primary btn-block" data-toggle="modal" (click)="upgradesModal.show()">Cash Upgrades</button></p><br>
+            <p><button type="button" class="btn btn-primary btn-block" data-toggle="modal" (click)="angelupgradesModal.show()">Angel Upgrades</button></p><br>
+            <p><button type="button" class="btn btn-primary btn-block" data-toggle="modal" (click)="unlockModal.show()">Unlocks</button></p><br>
+            <p><button type="button" class="btn btn-primary btn-block" data-toggle="modal" (click)="investorsModal.show()">Investors</button></p><br>
         </div>
         <div class="col-md-10">
             <p>
@@ -135,7 +135,10 @@
                     <div class="col-md-7">
                         <div class="row">
                             <span class="txt2 row text-center font-weight-bold" style="font-size:large; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
-                                {{unlock.name}} <br><span style="font-family: 'ROG Fonts'; font-size: small; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">To unlock : {{unlock.seuil}} unities</span></span>
+                                {{unlock.name}} <br>
+                                <span style="font-family: 'ROG Fonts'; font-size: small; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
+                                    To unlock : {{unlock.seuil}} unities</span>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -149,7 +152,10 @@
                         <div class="col-md-7">
                             <div class="row">
                                 <span class="txt2 row text-center font-weight-bold" style="font-size:large; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
-                                    {{unlock.name}} <br><span style="font-family: 'ROG Fonts'; font-size: small; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">To unlock : {{unlock.seuil}} unities</span></span>
+                                    {{unlock.name}} <br>
+                                    <span style="font-family: 'ROG Fonts'; font-size: small; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
+                                    To unlock : {{unlock.seuil}} unities</span>
+                                </span>
                             </div>
 
                         </div>
@@ -167,32 +173,32 @@
 
     <app-modal #investorsModal>
         <div class="app-modal-header">
-            <h4 class="modal-title">Investors !</h4>
+            <h4 class="modal-title text-center" style="font-size:x-large;">The Ewoks can help you!</h4>
         </div>
-        <div style="color: aliceblue;" class="app-modal-body">
-            <div style="height: 80px; padding-top: 10px; background-color: #58355E;" class="row border rounded text-center">
-                <span class="col-md-12">Your Total angels</span>
+        <div class="app-modal-body">
+            <div class="row border rounded text-center">
+                <span class="col-md-12">Your Total Ewoks</span>
                 <span style="font-size: 30px;" class="col-md-12">{{world.totalangels}}</span>
             </div>
             <div class="row">
-                <div style="height: 200px; padding-top: 40px; padding-left: 30px;" class="col-md-6 border bg-info rounded">
+                <div style="height: 200px; padding-top: 40px; padding-left: 30px;" class="col-md-6 bg-dark">
                     <div class="row">
                         <span style="font-size: 35px;" class="col-md-12 text-center">{{world.angelbonus}}%</span>
-                        <span style="margin-left: 20px;">Profit Bonus Per angel</span>
+                        <span style="margin-left: 20px;" class="text-center">Profit Bonus Per Ewok</span>
                     </div>
                 </div>
-                <div style="height: 200px; padding-top: 4px; padding-left: 15px;" class="col-md-6 border bg-info rounded">
-                    <div class="row">
+                <div style="height: 200px; padding-top: 4px; padding-left: 15px;" class="col-md-6 bg-dark">
+                    <div class="row text-center">
                         <span style="font-size: 35px;" class="col-md-12 text-center">{{world.activeangels}}</span>
-                        <span style="margin-left: 20px;">Angels Claimed with Restart</span>
-                        <button class="col-md-9 btn text-white border rounded border-info validInv">Claim</button>
-                        <span class="col-md-12 text-center">Restart Your businesses</span>
+                        <span style="margin-left: 20px;">Ewoks Claimed with Restart</span>
+                        <button class="col-md-9 text-center btn-block btn-default">Claim</button>
+                        <!--<span class="col-md-12 text-center">Restart Your business</span>-->
                     </div>
                 </div>
             </div>
         </div>
         <div class="app-modal-footer">
-            <button type="button" class="btn btn-danger" (click)="investorsModal.hide()">Close</button>
+            <button type="button" class="btn btn-default" (click)="investorsModal.hide()">Close</button>
         </div>
     </app-modal>
 

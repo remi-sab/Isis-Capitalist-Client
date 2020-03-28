@@ -143,6 +143,16 @@ calcCost (qty : number) {
     this.productsUnlocks();
   }
 
+  quantiteAchetable(){
+    let qty = 0;
+    if (this._qtmulti === "X1") { qty = 1 }
+    else if (this._qtmulti === "X10") { qty = 10 }
+    else if (this._qtmulti === "X100") { qty = 100 }
+    else if (this._qtmulti === "Max") { qty = this.calcMaxCanBuy() }
+
+    return qty;
+  }
+
   calcUpgrade(pallier: Pallier) {
       switch (pallier.typeratio) {
       case 'VITESSE':

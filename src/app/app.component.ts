@@ -38,7 +38,7 @@ export class AppComponent {
       this.managerDisponibility();
       this.upgradeDisponibility();
       this.bonusAllunlock();
-    }, 5000)
+    }, 1000)
 
     
   }
@@ -79,7 +79,7 @@ export class AppComponent {
 
   async onBuyDone(n : number){
     if(this.world.money >= n){
-    this.world.money = this.world.money - n;
+      this.world.money = this.world.money - n;
     } else {
       this.world.money = this.world.money;
     }
