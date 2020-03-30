@@ -38,12 +38,12 @@ public getServer() : string {
 
   private setHeaders (user: string) : HttpHeaders {
     console.log(localStorage.getItem("username"));
-    var headers = new HttpHeaders();
-    headers = headers.append("X-user", localStorage.getItem("username"));
+    var headers = new HttpHeaders({'X-user' : localStorage.getItem("username")});
+    //headers = headers.append("X-user", localStorage.getItem("username"));
     return headers;
   }
 
-  public saveWorld (world : World) {
+  /*public saveWorld (world : World) {
     this.http
     .put(this.server + "generic/world", world, {
       headers: {"X-user": localStorage.getItem("username")}
@@ -57,6 +57,6 @@ public getServer() : string {
       }
       );
     
-  }
+  }*/
 
 }

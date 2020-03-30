@@ -27,3 +27,13 @@ body {
 .col-sm-4 {
     border: 2px solid white;
 }
+
+img {
+    opacity: 0.8;
+    filter: alpha(opacity=40);
+}
+
+img:hover {
+    opacity: 1.0;
+    filter: alpha(opacity=100);
+}

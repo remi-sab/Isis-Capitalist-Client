@@ -34,7 +34,7 @@ export class AppComponent {
 
   ngOnInit() : void {
     setInterval(() => { 
-      this.service.saveWorld(this.world);
+      //this.service.saveWorld(this.world);
       this.managerDisponibility();
       this.upgradeDisponibility();
       this.bonusAllunlock();

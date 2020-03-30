@@ -1,31 +1,31 @@
 <div class="container-fluid">
-    <div class="row">
+    <div class="row" style="padding-bottom: 50px;">
 
         <div class="col-md-2">
             <img src="http://localhost:8080/LogoSR.png" class="img-responsive"><br>
         </div>
 
-        <div class='col-md-2'>
-            <span class="row" style="font-family: 'Trajan Pro'; font-size: large;">Pseudo : </span><br>
-            <input type="text" [(ngModel)]="username" (change)="onUsernameChanged()" /><br>
-            <input type="submit" value="Enregistrer Pseudo">
+        <div class="col-md-2">
+            <span class="row" style="font-family: 'Trajan Pro'; font-size: x-large;">Player : </span>
+            <input type="text" style="color: black;" [(ngModel)]="username" (change)="onUsernameChanged()" /><br>
+            <input type="submit" value="New Player" style="color: black;">
         </div>
 
 
-        <div class="col-md-3">
+        <div class="col-md-3" style="padding-top: 40px;">
             <span class="worldname" id='worldname'>{{world.name}}</span>
             <img src="http://localhost:8080/tatooine.png" class="image" style="width:auto; height: 120px;">
         </div>
 
 
-        <div class="col-md-3">
-            <h4 class="texthaut">Score : </h4><span class="moneystyle" [innerHTML]="world.score | bigvalue"></span>
-            <h4 class="texthaut">Republican Credits : </h4><span class="moneystyle" [innerHTML]="world.money | bigvalue"></span>
-            <h4 class="texthaut">Ewoks : </h4><span class="moneystyle" [innerHTML]="world.totalangels | bigvalue"></span>
+        <div class="col-md-3" style="padding-top: 30px;">
+            <span class="texthaut" style="font-size: medium;">Score : </span><span class="moneystyle" [innerHTML]="world.score | bigvalue"></span><br><br>
+            <span class="texthaut" style="font-size: medium;">Republican Credits : </span><span class="moneystyle" [innerHTML]="world.money | bigvalue"></span><br><br>
+            <span class="texthaut" style="font-size: medium;">Ewoks : </span><span class="moneystyle" [innerHTML]="world.totalangels | bigvalue"></span>
         </div>
 
 
-        <div class="col-md-2">
+        <div class="col-md-2" style="padding-top: 40px;">
             <button type="button" class="button btn-warning btn-lg pull-right" (click)="commutateur()">Buy {{qtmulti}}</button>
         </div>
 
