@@ -62,6 +62,7 @@ export class AppComponent {
     this.world.score = this.world.score + p.revenu*p.quantite;
     this.managerDisponibility();
     this.upgradeDisponibility();
+    this.service.putProduct(p);
   }
 
   commutateur(){

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ViewChild, Output, EventEmitter, ElementRef } from '@angular/core';
 import { Product, Pallier } from '../world';
+import { RestserviceService } from '../restservice.service';
 import { delay } from '../utils/delay.function';
 
 
@@ -23,7 +24,7 @@ export class ProductComponent implements OnInit {
   @Output() notifyBuying: EventEmitter<number> = new EventEmitter<number>();
   @Output() notifyUnlocked: EventEmitter<Pallier> = new EventEmitter<Pallier>();
 
-  constructor() { }
+  constructor(private service: RestserviceService) { }
 
   @Input()
   set prod(value: Product) {
@@ -76,6 +77,7 @@ export class ProductComponent implements OnInit {
     if (this.product.quantite >= 1 && !this.isRun) {
     console.log('Fabrication commencée')
     this.product.timeleft = this.product.vitesse;
+    this.service.putProduct(this.product);
     this.lastupdate = Date.now();
     this.progressbar.animate(1, { duration: this.product.vitesse });
     this.isRun = true;
@@ -141,6 +143,7 @@ calcCost (qty : number) {
       this.product.quantite = this.product.quantite + qty;
     }
     this.productsUnlocks();
+    this.service.putProduct(this.product);
   }
 
   quantiteAchetable(){
