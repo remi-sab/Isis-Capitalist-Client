@@ -21,6 +21,7 @@ export class AppComponent {
   managerDispo : boolean;
   upgradeDispo : boolean;
   angelDispo : boolean;
+  interval;
 
   constructor(private service: RestserviceService, private toastr : ToastrService){
     this.server = service.getServer(); 
@@ -33,8 +34,8 @@ export class AppComponent {
   }
 
   ngOnInit() : void {
-    setInterval(() => { 
-      //this.service.saveWorld(this.world);
+    this.interval = setInterval(() => { 
+      this.service.saveWorld(this.world);
       this.managerDisponibility();
       this.upgradeDisponibility();
       this.bonusAllunlock();
@@ -44,8 +45,20 @@ export class AppComponent {
   }
 
   onUsernameChanged(): void {
+    console.log(this.username);
+    clearInterval(this.interval);
     localStorage.setItem("username", this.username);
     this.service.setUser(this.username);
+    this.service.getWorld().then(
+      world => { this.world = world; 
+        console.log("world:",world);
+      }).catch(error => {console.log("error:",error)});
+    this.interval = setInterval(() => { 
+      this.service.saveWorld(this.world);
+      this.managerDisponibility();
+      this.upgradeDisponibility();
+      this.bonusAllunlock();
+    }, 1000)
   }
 
   createUsername(): void {
@@ -196,12 +209,10 @@ export class AppComponent {
     this.world.allunlocks.pallier.forEach(palier => {
       let minQuantite : boolean = true;
       this.productsComponent.forEach(p => {
-        console.log(p.product.quantite);
         if(p.product.quantite < palier.seuil){
           minQuantite=false;
         }
       });
-      console.log(minQuantite);
       if(minQuantite){
         this.world.allunlocks.pallier[this.world.allunlocks.pallier.indexOf(palier)].unlocked = true;
         this.productsComponent.forEach(prod => prod.calcUpgrade(palier));

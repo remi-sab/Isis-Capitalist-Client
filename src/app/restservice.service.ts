@@ -43,7 +43,7 @@ export class RestserviceService {
     return headers;
   }
 
-  /*public saveWorld (world : World) {
+  public saveWorld (world : World) {
     this.http
     .put(this.server + "generic/world", world, {
       headers: {"X-user": localStorage.getItem("username")}
@@ -57,7 +57,7 @@ export class RestserviceService {
       }
       );
     
-  }*/
+  }
 
   putManager(manager: Pallier): Promise<Response> {
     return this.http.put(this.server + "generic/manager", manager, {
