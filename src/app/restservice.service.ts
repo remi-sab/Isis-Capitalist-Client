@@ -75,4 +75,12 @@ export class RestserviceService {
       .catch(this.handleError);
   };
 
+  putUpgrade(upgrade: Pallier): Promise<Response> {
+    return this.http.put(this.server + "generic/product", upgrade, {
+      headers: this.setHeaders(this.user)
+    })
+      .toPromise().then(response => response)
+      .catch(this.handleError);
+  };
+
 }

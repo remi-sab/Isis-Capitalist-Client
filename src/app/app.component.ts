@@ -172,6 +172,7 @@ export class AppComponent {
         })
       }
       this.upgradeDisponibility();
+      this.service.putUpgrade(u);
     }
   }
 
@@ -210,13 +211,14 @@ export class AppComponent {
       let minQuantite : boolean = true;
       this.productsComponent.forEach(p => {
         if(p.product.quantite < palier.seuil){
-          minQuantite=false;
+          minQuantite = false;
         }
       });
       if(minQuantite){
         this.world.allunlocks.pallier[this.world.allunlocks.pallier.indexOf(palier)].unlocked = true;
         this.productsComponent.forEach(prod => prod.calcUpgrade(palier));
         this.toastr.success("Bonus de " + palier.typeratio + " effectué sur tous les produits");
+        this.service.putUpgrade(palier);
       }
     });
   }

@@ -173,6 +173,7 @@ calcCost (qty : number) {
         palier.unlocked = true;
         this.calcUpgrade(palier);
         this.notifyUnlocked.emit(palier);
+        //this.service.putUpgrade(palier);
       }
       
     });
