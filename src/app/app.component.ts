@@ -5,6 +5,7 @@ import { ProductComponent } from './product/product.component';
 import { ToastrService } from 'ngx-toastr';
 import { ValueConverter } from '@angular/compiler/src/render3/view/template';
 import { delay } from './utils/delay.function';
+import { calcPossibleSecurityContexts } from '@angular/compiler/src/template_parser/binding_parser';
 
 @Component({
   selector: 'app-root',
@@ -76,6 +77,7 @@ export class AppComponent {
     this.managerDisponibility();
     this.upgradeDisponibility();
     this.service.putProduct(p);
+
   }
 
   commutateur(){
