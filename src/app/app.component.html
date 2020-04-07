@@ -20,7 +20,7 @@
 
         <div class="col-md-3" style="padding-top: 30px;">
             <span class="texthaut" style="font-size: medium;">Score : </span><span class="moneystyle" [innerHTML]="world.score | bigvalue"></span><br><br>
-            <span class="texthaut" style="font-size: medium;">Republican Credits : </span><span class="moneystyle" [innerHTML]="world.money | bigvalue"></span><br><br>
+            <span class="texthaut" style="font-size: medium;">Credits : </span><span class="moneystyle" [innerHTML]="world.money | bigvalue"></span><br><br>
             <span class="texthaut" style="font-size: medium;">Ewoks : </span><span class="moneystyle" [innerHTML]="world.totalangels | bigvalue"></span>
         </div>
 
@@ -111,7 +111,7 @@
                     </div>
                     <div class="col-md-7">
                         <div class="row">
-                            <button class="btn btn-info pull-right" style="height: 100px; width: 100px;" (click)="achatAngelUpgrade(angelupgrade)" [disabled]="world.money < angelupgrade.seuil">Buy!</button>
+                            <button class="btn btn-info pull-right" style="height: 100px; width: 100px;" (click)="achatAngelUpgrade(angelupgrade)" [disabled]="world.activeangels < angelupgrade.seuil">Buy!</button>
                             <span class="txt2 row text-center font-weight-bold" style="font-size:large; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">
                                 {{angelupgrade.name}} <br><span style="font-family: 'ROG Fonts'; font-size: small; text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;">Price : {{angelupgrade.seuil}} ewoks</span></span>
                         </div>
@@ -190,9 +190,9 @@
                 </div>
                 <div style="height: 200px; padding-top: 4px; padding-left: 15px;" class="col-md-6 bg-dark">
                     <div class="row text-center">
-                        <span style="font-size: 35px;" class="col-md-12 text-center">{{world.activeangels}}</span>
-                        <span style="margin-left: 20px;">Ewoks Claimed with Restart</span>
-                        <button class="col-md-9 text-center btn-block btn-default">Claim and restart your business!</button>
+                        <span style="margin-left: 20px; text-align: center;">Ewoks Claimed with Restart</span>
+                        <span style="font-size: 35px;" class="col-md-12 text-center" [innerHTML]="angelsToClaim | bigvalue">{{angelsToClaim}}</span>
+                        <button class="col-md-9 text-center btn-block btn-default" (click)="resetWorld()">Claim and restart your business!</button>
                     </div>
                 </div>
             </div>

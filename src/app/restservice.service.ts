@@ -83,4 +83,14 @@ export class RestserviceService {
       .catch(this.handleError);
   };
 
+  deleteWorld(): Promise<World> {
+    console.log("World de "+this.user+" rechargé !")
+    return this.http.delete(this.server + "generic/world", {
+      headers: this.setHeaders(this.user)
+    })
+    .toPromise().then(response => response)
+    .catch(this.handleError);
+  }
+  
+
 }

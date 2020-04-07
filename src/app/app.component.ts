@@ -22,6 +22,7 @@ export class AppComponent {
   managerDispo : boolean;
   upgradeDispo : boolean;
   angelDispo : boolean;
+  angelsToClaim : number = 0;
   interval;
 
   constructor(private service: RestserviceService, private toastr : ToastrService){
@@ -40,6 +41,7 @@ export class AppComponent {
       this.managerDisponibility();
       this.upgradeDisponibility();
       this.bonusAllunlock();
+      this.angelQty();
     }, 1000)
 
     
@@ -59,6 +61,7 @@ export class AppComponent {
       this.managerDisponibility();
       this.upgradeDisponibility();
       this.bonusAllunlock();
+      this.angelQty();
     }, 1000)
   }
 
@@ -72,8 +75,8 @@ export class AppComponent {
   }
 
   onProductionDone(p : Product){
-    this.world.money = this.world.money + p.revenu*p.quantite;
-    this.world.score = this.world.score + p.revenu*p.quantite;
+    this.world.money = this.world.money + p.revenu*p.quantite*(this.world.angelbonus**this.world.activeangels);
+    this.world.score = this.world.score + p.revenu*p.quantite*(this.world.angelbonus**this.world.activeangels);
     this.managerDisponibility();
     this.upgradeDisponibility();
     this.service.putProduct(p);
@@ -133,7 +136,8 @@ export class AppComponent {
     this.world.angelupgrades.pallier.map(angel => {
       if (!this.angelDispo) {
         if (!angel.unlocked && this.world.activeangels > angel.seuil) {
-          this.angelDispo = true
+          this.angelDispo = true;
+          angel.unlocked == true;
         }
       }
     })
@@ -182,13 +186,13 @@ export class AppComponent {
     if (this.world.activeangels > p.seuil) {
       this.world.activeangels = this.world.activeangels - 1;
       this.world.angelupgrades.pallier[this.world.angelupgrades.pallier.indexOf(p)].unlocked = true;
-      if (p.typeratio == "ange") {
+      if (p.typeratio == "ANGE") {
         this.world.money = this.world.money * p.ratio + this.world.money;
         this.world.score = this.world.score * p.ratio + this.world.score;
         this.toastr.success("Achat d'un upgrade de " + p.typeratio + " pour tous les produits", "Upgrade Angels")
       }
       //au cas ou c'est pas un upgrade de type ange
-      else {
+     else {
         //au cas ou c'est un upgrade global
         if (p.idcible = 0) {
           this.productsComponent.forEach(prod => prod.calcUpgrade(p));
@@ -230,6 +234,20 @@ export class AppComponent {
       if (p.idcible == prod.product.id) {
         this.toastr.success("Bonus de " + p.typeratio + " effectué sur " + prod.product.name);
         }
+    });
+  }
+
+  angelQty () {
+    this.angelsToClaim = Math.round(150 * Math.sqrt((this.world.score) / Math.pow(10, 15))) - this.world.totalangels;
+    console.log("Nombre d'Anges : " + this.angelsToClaim);
+    return this.angelsToClaim;
+  }
+
+  resetWorld(){
+    this.service.deleteWorld().then(()=>{
+      this.service.getWorld().then(world => {
+        this.world = world;
+      })
     });
   }
   
