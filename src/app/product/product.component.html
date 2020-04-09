@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="d-block">
     <div class="row">
 
         <div class="col-md-4">
@@ -16,8 +16,8 @@
         <div class="col-4 col-sm-6">
             <div class="row">
                 <button type=button class="button col-md-5 btn btn-warning btn-md" (click)="onBuy()" *ngIf="_qtmulti != 'Max'" [disabled]="_money < calcCost(quantiteAchetable())">Buy {{_qtmulti}}</button>
-                <button type=button class="button col-md-5 btn btn-warning btn-md" (click)="onBuy()" *ngIf="_qtmulti == 'Max'">Buy X{{calcMaxCanBuy()}}</button>
-                <div class="col-md-7 text-center textproduct">00:00:00</div><br>
+                <button type=button class="button col-md-5 btn btn-warning btn-md" (click)="onBuy()" *ngIf="_qtmulti == 'Max'" [disabled]="calcMaxCanBuy() == 0">Buy X{{calcMaxCanBuy()}}</button>
+                <div class="col-md-7 text-center textproduct"><span [innerHTML]="product.timeleft | timer"></span></div><br>
             </div>
         </div>
     </div>

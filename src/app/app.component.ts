@@ -191,14 +191,11 @@ export class AppComponent {
         this.world.score = this.world.score * p.ratio + this.world.score;
         this.toastr.success("Achat d'un upgrade de " + p.typeratio + " pour tous les produits", "Upgrade Angels")
       }
-      //au cas ou c'est pas un upgrade de type ange
      else {
-        //au cas ou c'est un upgrade global
         if (p.idcible = 0) {
           this.productsComponent.forEach(prod => prod.calcUpgrade(p));
           this.toastr.success("Achat d'un upgrade de " + p.typeratio + " pour tous les produits", "Upgrade Angels");
         }
-        //au cas ou c'est ciblé pour un produit
         else {
           this.productsComponent.forEach(prod => {
             if (p.idcible == prod.product.id) {
@@ -210,6 +207,7 @@ export class AppComponent {
         }
       }
     }
+    this.service.putAngel(p);
   }
 
   bonusAllunlock() {
@@ -220,14 +218,16 @@ export class AppComponent {
           minQuantite = false;
         }
       });
-      if(minQuantite){
-        this.world.allunlocks.pallier[this.world.allunlocks.pallier.indexOf(palier)].unlocked = true;
-        this.productsComponent.forEach(prod => prod.calcUpgrade(palier));
-        this.toastr.success("Bonus de " + palier.typeratio + " effectué sur tous les produits");
-        this.service.putUpgrade(palier);
+      this.world.allunlocks.pallier.map(palier => {
+        if(minQuantite && !palier.unlocked){
+          this.world.allunlocks.pallier[this.world.allunlocks.pallier.indexOf(palier)].unlocked = true;
+          this.productsComponent.forEach(prod => prod.calcUpgrade(palier));
+          this.toastr.success("Bonus de " + palier.typeratio + " effectué sur tous les produits");
+          this.service.putUpgrade(palier);
       }
     });
-  }
+  });
+}
 
   productUnlockDone  (p : Pallier){
     this.productsComponent.forEach(prod => {

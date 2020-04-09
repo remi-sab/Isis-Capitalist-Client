@@ -9,6 +9,7 @@ import { ModalComponent } from './modal/modal.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
+import { TimerPipe } from './timer.pipe';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { FormsModule } from '@angular/forms';
     AppComponent,
     ProductComponent,
     BigvaluePipe,
-    ModalComponent
+    ModalComponent,
+    TimerPipe
   ],
   imports: [
     BrowserModule,

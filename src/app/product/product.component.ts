@@ -89,7 +89,6 @@ export class ProductComponent implements OnInit {
       if (this.product.timeleft > 0) {
         this.product.timeleft = this.product.timeleft - (Date.now() - this.lastupdate);
         this.lastupdate = Date.now();
-        console.log('coucou');
       } else {
         this.isRun = false;
         this.lastupdate = 0;
@@ -173,11 +172,12 @@ calcCost (qty : number) {
         palier.unlocked = true;
         this.calcUpgrade(palier);
         this.notifyUnlocked.emit(palier);
-        //this.service.putUpgrade(palier);
+        this.service.putUpgrade(palier);
       }
       
     });
 
-    }
+  }
+
 
 }
