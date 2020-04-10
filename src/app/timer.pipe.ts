@@ -29,7 +29,7 @@ export class TimerPipe implements PipeTransform {
       value = value - (sec * 1000);
     }
     if(value < 1000 && value >= 0){
-      ms = value;
+      ms = Math.trunc(value);
     }
 
     return this.normalisation(min)+":"+this.normalisation(sec)+":"+this.normalisation(ms);
